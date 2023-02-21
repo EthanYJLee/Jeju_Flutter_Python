@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
         primaryColorDark: Color.fromARGB(207, 195, 172, 152),
-        primaryColorLight: Color.fromARGB(197, 255, 247, 239),
+        primaryColorLight: Color.fromARGB(197, 226, 218, 210),
       ),
       debugShowCheckedModeBanner: false,
       home: const Login(),
