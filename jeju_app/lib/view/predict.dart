@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -31,15 +32,33 @@ class _PredictState extends State<Predict> {
     '이호동',
     '도두동'
   ];
-
+  late List<String> categoryList = [
+    '한식',
+    '일식',
+    '중식',
+    '양식',
+    '패스트푸드',
+    '음료',
+    '외국음식'
+  ];
   final TextEditingController dongController = TextEditingController();
+  final TextEditingController categoryController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    // 행정동 dropdown list
     final List<DropdownMenuEntry<String>> dongEntries =
         <DropdownMenuEntry<String>>[];
     for (final dong in dongList) {
       dongEntries.add(DropdownMenuEntry<String>(value: dong, label: dong));
+    }
+
+    // 업종 dropdown list
+    final List<DropdownMenuEntry<String>> categoryEntries =
+        <DropdownMenuEntry<String>>[];
+    for (final category in categoryList) {
+      categoryEntries
+          .add(DropdownMenuEntry<String>(value: category, label: category));
     }
     return Scaffold(
       appBar: AppBar(
@@ -49,6 +68,10 @@ class _PredictState extends State<Predict> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Padding(
+              padding: EdgeInsets.all(50.0),
+              child: InfoChoice(),
+            ),
             SizedBox(
               height: 60,
               child: Expanded(
@@ -62,10 +85,28 @@ class _PredictState extends State<Predict> {
                 ),
               ),
             ),
-            SingleChoice(),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: 60,
+              child: Expanded(
+                child: DropdownMenu(
+                  menuHeight: 200,
+                  width: 200,
+                  initialSelection: categoryList[0],
+                  controller: categoryController,
+                  label: const Text('카테고리'),
+                  dropdownMenuEntries: categoryEntries,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 100,
+            ),
             FilledButton.tonal(
               onPressed: () {},
-              child: Text('예측'),
+              child: const Text('예측'),
             )
           ],
         ),
@@ -74,81 +115,50 @@ class _PredictState extends State<Predict> {
   }
 }
 
-enum Categories { a, b, c, d, e, f, g }
+// Desc: 내 정보 가져오기 / 직접 입력 선택하는 Segmented Button
+// Date: 2023-02-21
+// youngjin
+enum WhichInfo { myStore, byMyself }
 
-class SingleChoice extends StatefulWidget {
-  const SingleChoice({super.key});
+class InfoChoice extends StatefulWidget {
+  const InfoChoice({super.key});
 
   @override
-  State<SingleChoice> createState() => _SingleChoiceState();
+  State<InfoChoice> createState() => _InfoChoiceState();
 }
 
-class _SingleChoiceState extends State<SingleChoice> {
-  Categories category = Categories.a;
+class _InfoChoiceState extends State<InfoChoice> {
+  WhichInfo choice = WhichInfo.myStore;
 
   @override
   Widget build(BuildContext context) {
-    return SegmentedButton<Categories>(
-      style: ButtonStyle(
-        backgroundColor:
-            MaterialStatePropertyAll(Theme.of(context).primaryColorLight),
-      ),
-      showSelectedIcon: false,
-      segments: const <ButtonSegment<Categories>>[
-        ButtonSegment<Categories>(
-          value: Categories.a,
-          label: Text(
-            '한식',
-            style: TextStyle(fontSize: 10),
-          ),
-        ),
-        ButtonSegment<Categories>(
-          value: Categories.b,
-          label: Text(
-            '일식',
-            style: TextStyle(fontSize: 10),
-          ),
-        ),
-        ButtonSegment<Categories>(
-          value: Categories.c,
-          label: Text(
-            '중식',
-            style: TextStyle(fontSize: 10),
-          ),
-        ),
-        ButtonSegment<Categories>(
-          value: Categories.d,
-          label: Text(
-            '양식',
-            style: TextStyle(fontSize: 10),
-          ),
-        ),
-        ButtonSegment<Categories>(
-          value: Categories.e,
-          label: Text(
-            '패스트\n푸드',
-            style: TextStyle(fontSize: 10),
-          ),
-        ),
-        ButtonSegment<Categories>(
-          value: Categories.f,
-          label: Text(
-            '음료',
-            style: TextStyle(fontSize: 10),
-          ),
-        ),
-        ButtonSegment<Categories>(
-          value: Categories.g,
-          label: Text(
-            '외국음식',
-            style: TextStyle(fontSize: 10),
-          ),
-        ),
+    return SegmentedButton<WhichInfo>(
+      style: const ButtonStyle(
+          backgroundColor: MaterialStatePropertyAll(
+        Color.fromARGB(46, 154, 155, 151),
+      )),
+      segments: const <ButtonSegment<WhichInfo>>[
+        ButtonSegment<WhichInfo>(
+            value: WhichInfo.myStore,
+            label: Text(
+              '내 정보 가져오기',
+              style: TextStyle(
+                  color: Colors.orangeAccent, fontWeight: FontWeight.bold),
+            ),
+            icon: Icon(Icons.store)),
+        ButtonSegment<WhichInfo>(
+            value: WhichInfo.byMyself,
+            label: Text(
+              '직접 입력하기',
+              style: TextStyle(
+                  color: Colors.orangeAccent, fontWeight: FontWeight.bold),
+            ),
+            icon: Icon(Icons.note_add_outlined)),
       ],
-      selected: <Categories>{category},
-      onSelectionChanged: (Set<Categories> newCategory) {
+      selected: <WhichInfo>{choice},
+      onSelectionChanged: (Set<WhichInfo> newChoice) {
         setState(() {
-          category = newCategory.first;
+          choice = newChoice.first;
         });
       },
     );

@@ -49,24 +49,30 @@ class _HomeState extends State<Home> {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15))),
                       elevation: 2,
-                      color: Color.fromARGB(100, 154, 155, 151),
+                      color: const Color.fromARGB(100, 154, 155, 151),
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context)
                               .push(CardDialog(builder: (context) {
-                            return _PopupCard(sName: '1');
+                            return const _PopupCard(sName: '1');
                           }));
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Text(
-                              '1',
+                              '매장명',
                               style: TextStyle(
                                   fontSize: 17,
                                   // fontWeight: FontWeight.bold,
                                   color: Colors.white),
-                              maxLines: 4,
+                            ),
+                            Text(
+                              '주소',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  // fontWeight: FontWeight.bold,
+                                  color: Colors.white),
                             ),
                           ],
                         ),
@@ -102,6 +108,14 @@ class _HomeState extends State<Home> {
               width: 350,
               child: _storeList(),
             ),
+            const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text(
+                '주변 관광지',
+              ),
+            ),
+            const Text('성산일출봉'),
+            const Text('1km'),
           ],
         ),
       ),
@@ -111,7 +125,7 @@ class _HomeState extends State<Home> {
 
 // --------------------------------------------------------
 
-// Desc: 카드 (매장 tap 했을 때 수정/매출 예측할 수 있는 Dialog 출력)
+// Desc: 카드 (매장) tap 했을 때 수정/매출 예측할 수 있는 Dialog 출력
 // Date: 2023-02-21
 // youngjin
 const String sName = '';
@@ -131,7 +145,7 @@ class _PopupCard extends StatelessWidget {
             return RectTween(begin: begin, end: end);
           },
           child: Material(
-            color: Color.fromARGB(255, 245, 239, 221),
+            color: const Color.fromARGB(255, 245, 239, 221),
             elevation: 2,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
@@ -143,12 +157,17 @@ class _PopupCard extends StatelessWidget {
                   children: [
                     const Text('매장명'),
                     const Divider(
-                      color: Colors.white,
+                      color: Colors.black,
                       thickness: 0.2,
                     ),
-                    Text('설명'),
+                    const Text('주소'),
                     const Divider(
-                      color: Colors.white,
+                      color: Colors.black,
+                      thickness: 0.2,
+                    ),
+                    const Text('전화번호'),
+                    const Divider(
+                      color: Colors.black,
                       thickness: 0.2,
                     ),
                     Row(
