@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jeju_app/login.dart';
+import 'package:jeju_app/view/login.dart';
 
 void main() {
   runApp(const MyApp());
