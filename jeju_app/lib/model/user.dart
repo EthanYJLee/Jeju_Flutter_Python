@@ -7,4 +7,10 @@ class Login{
   login() async{
     //--
   }
+
+  //Desc: 회원가입
+  //Date: 2023-02-21
+  join() async{
+    //--
+  }
 }

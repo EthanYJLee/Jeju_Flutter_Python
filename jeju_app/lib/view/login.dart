@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:jeju_app/view/join.dart';
 import 'package:jeju_app/view/menu.dart';
 
 class Login extends StatefulWidget {
@@ -71,6 +72,19 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: ((context) => const Join()),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    '회원가입',
+                  )
+                ),
             ],
           ),
         ),
