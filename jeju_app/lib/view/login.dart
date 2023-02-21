@@ -36,6 +36,7 @@ class _LoginState extends State<Login> {
                 );
               },
               child: Text('home')),
+
           Padding(
             padding: const EdgeInsets.only(left: 50.0, right: 50.0),
             child: TextField(
