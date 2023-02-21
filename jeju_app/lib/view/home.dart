@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:jeju_app/util/card_dialog.dart';
+import 'package:jeju_app/view/predict.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -22,7 +23,7 @@ class _HomeState extends State<Home> {
           style: BorderStyle.solid,
           width: 1,
         ),
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(16),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -45,6 +46,8 @@ class _HomeState extends State<Home> {
                     height: 100,
                     width: 100,
                     child: Card(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
                       elevation: 2,
                       color: Color.fromARGB(100, 154, 155, 151),
                       child: InkWell(
@@ -88,8 +91,11 @@ class _HomeState extends State<Home> {
       body: Center(
         child: Column(
           children: [
-            Text(
-              '매장을 선택해주세요',
+            const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text(
+                '매장을 선택해주세요',
+              ),
             ),
             Container(
               height: 110,
@@ -153,7 +159,12 @@ class _PopupCard extends StatelessWidget {
                           child: const Text('정보수정'),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => const Predict())));
+                          },
                           child: const Text('매출예측'),
                         ),
                       ],
