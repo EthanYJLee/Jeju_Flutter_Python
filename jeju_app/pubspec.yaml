@@ -41,6 +41,8 @@ dependencies:
   geolocator: ^9.0.2
   fl_chart: ^0.55.2
   flutter_naver_login: ^1.6.0
+  html: ^0.15.1
+  url_launcher: ^6.0.18
 
 dev_dependencies:
   flutter_test:
