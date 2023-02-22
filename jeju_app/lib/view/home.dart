@@ -1,8 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:jeju_app/model/news_model.dart';
 import 'package:jeju_app/util/card_dialog.dart';
+import 'package:jeju_app/util/popup_card.dart';
+import 'package:jeju_app/util/popup_news.dart';
 import 'package:jeju_app/view/predict.dart';
+import 'package:http/http.dart' as http;
+import 'package:html/parser.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,6 +22,75 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List<NewsModel> news = [];
+  bool isLoading = true;
+  Future initNews() async {
+    news = await getNews();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initNews().then((_) {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
+  // Desc: 관광 관련 News 보여주는 ListView
+  // Date: 2023-02-22
+  // youngjin
+  Widget _viewNews() {
+    return Container(
+      height: 300,
+      width: 350,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: news.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    height: 60,
+                    width: 160,
+                    padding: const EdgeInsets.all(2),
+                    child: Card(
+                      elevation: 2,
+                      color: Color.fromARGB(219, 245, 168, 74),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(CardDialog(builder: (context) {
+                            return PopupNews(
+                                title: news[index].title,
+                                description: news[index].description,
+                                originallink: news[index].originallink);
+                          }));
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              news[index].title,
+                              style: const TextStyle(
+                                  fontSize: 17, color: Colors.white),
+                              maxLines: 4,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+
   // Desc: 내 매장 리스트
   // Date: 2023-02-21
   // youngjin
@@ -49,12 +128,12 @@ class _HomeState extends State<Home> {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15))),
                       elevation: 2,
-                      color: const Color.fromARGB(100, 154, 155, 151),
+                      color: Color.fromARGB(219, 245, 168, 74),
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context)
                               .push(CardDialog(builder: (context) {
-                            return const _PopupCard(sName: '1');
+                            return const PopupCard(sName: '1');
                           }));
                         },
                         child: Column(
@@ -91,6 +170,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(100, 154, 155, 151),
       appBar: AppBar(
         title: const Text('Home'),
       ),
@@ -111,11 +191,10 @@ class _HomeState extends State<Home> {
             const Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
-                '주변 관광지',
+                '오늘의 이슈',
               ),
             ),
-            const Text('성산일출봉'),
-            const Text('1km'),
+            _viewNews()
           ],
         ),
       ),
@@ -125,76 +204,43 @@ class _HomeState extends State<Home> {
 
 // --------------------------------------------------------
 
-// Desc: 카드 (매장) tap 했을 때 수정/매출 예측할 수 있는 Dialog 출력
-// Date: 2023-02-21
-// youngjin
-const String sName = '';
+// ----------------------Class----------------------
 
-class _PopupCard extends StatelessWidget {
-  const _PopupCard({Key? key, required this.sName}) : super(key: key);
+// ----------------------Functions----------------------
+Future<List<NewsModel>> getNews() async {
+  List<NewsModel> _newslist = [];
+  NewsModel _newsModel;
+  Map<String, String> header = {
+    'X-Naver-Client-Id': 'f6wde9wfHSqXYORRMmgN',
+    'X-Naver-Client-Secret': 'n_K6rgD9dR'
+  };
 
-  final String sName;
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Hero(
-          tag: sName,
-          createRectTween: (begin, end) {
-            return RectTween(begin: begin, end: end);
-          },
-          child: Material(
-            color: const Color.fromARGB(255, 245, 239, 221),
-            elevation: 2,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('매장명'),
-                    const Divider(
-                      color: Colors.black,
-                      thickness: 0.2,
-                    ),
-                    const Text('주소'),
-                    const Divider(
-                      color: Colors.black,
-                      thickness: 0.2,
-                    ),
-                    const Text('전화번호'),
-                    const Divider(
-                      color: Colors.black,
-                      thickness: 0.2,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('정보수정'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: ((context) => const Predict())));
-                          },
-                          child: const Text('매출예측'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+  var query = '제주도 관광';
+  var url = Uri.parse(
+      'https://openapi.naver.com/v1/search/news.json?query=${query}&display=10&start=1');
+  var res = await http.get(url, headers: header);
+  var news = json.decode(utf8.decode(res.bodyBytes));
+  if (res.statusCode == 200) {
+    for (var i in news['items']) {
+      String title = parseHtmlString(i['title']);
+      String description = parseHtmlString(i['description']);
+      String originallink = parseHtmlString(i['originallink']);
+      _newsModel = NewsModel(
+          title: title, description: description, originallink: originallink);
+      _newslist.add(_newsModel);
+    }
+  }
+  return _newslist;
+}
+
+String parseHtmlString(String htmlString) {
+  try {
+    final document = parse(htmlString);
+    final String parsedString =
+        parse(document.body!.text).documentElement!.text;
+
+    return parsedString;
+  } catch (e) {
+    return htmlString;
   }
 }

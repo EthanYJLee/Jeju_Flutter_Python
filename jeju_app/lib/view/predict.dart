@@ -86,7 +86,11 @@ class _PredictState extends State<Predict> {
   // youngjin
   Widget _getSetInfo() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        const SizedBox(
+          height: 50,
+        ),
         SegmentedButton<WhichInfo>(
           style: const ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(
@@ -117,6 +121,7 @@ class _PredictState extends State<Predict> {
           selected: <WhichInfo>{choice},
           onSelectionChanged: (Set<WhichInfo> newChoice) {
             setState(() {
+              // 버튼 누를 때 마다 controller 초기화해주기
               choice = newChoice.first;
               dongController = TextEditingController();
               categoryController = TextEditingController();
@@ -124,7 +129,7 @@ class _PredictState extends State<Predict> {
           },
         ),
         const SizedBox(
-          height: 50,
+          height: 30,
         ),
         Container(
           child: choice == WhichInfo.myStore ? _myInfoArea() : _dropdownArea(),
@@ -138,14 +143,23 @@ class _PredictState extends State<Predict> {
   // youngjin
   Widget _myInfoArea() {
     return Container(
+      height: 250,
+      padding: EdgeInsets.only(left: 50, right: 50),
       child: Column(
         children: const [
+          Text('매장명'),
+          TextField(
+            readOnly: true,
+          ),
+          SizedBox(
+            height: 20,
+          ),
           Text('행정동'),
           TextField(
             readOnly: true,
           ),
           SizedBox(
-            height: 30,
+            height: 20,
           ),
           Text('카테고리'),
           TextField(
@@ -175,37 +189,35 @@ class _PredictState extends State<Predict> {
           .add(DropdownMenuEntry<String>(value: category, label: category));
     }
     return Container(
+      height: 250,
       child: Column(
         children: [
-          SizedBox(
-            height: 60,
-            child: Expanded(
-              child: DropdownMenu(
-                menuHeight: 200,
-                width: 200,
-                initialSelection: dongList[0],
-                controller: dongController,
-                label: const Text('행정동'),
-                dropdownMenuEntries: dongEntries,
-              ),
+          Expanded(
+            child: DropdownMenu(
+              menuHeight: 200,
+              width: 200,
+              initialSelection: dongList[0],
+              controller: dongController,
+              label: const Text('행정동'),
+              dropdownMenuEntries: dongEntries,
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 30,
           ),
-          SizedBox(
-            height: 60,
-            child: Expanded(
-              child: DropdownMenu(
-                menuHeight: 200,
-                width: 200,
-                initialSelection: categoryList[0],
-                controller: categoryController,
-                label: const Text('카테고리'),
-                dropdownMenuEntries: categoryEntries,
-              ),
+          Expanded(
+            child: DropdownMenu(
+              menuHeight: 200,
+              width: 200,
+              initialSelection: categoryList[0],
+              controller: categoryController,
+              label: const Text('카테고리'),
+              dropdownMenuEntries: categoryEntries,
             ),
           ),
+          const SizedBox(
+            height: 100,
+          )
         ],
       ),
     );
@@ -215,26 +227,34 @@ class _PredictState extends State<Predict> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('매장 정보 입력'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(50.0),
-              child: _getSetInfo(),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: const Text('매장 정보 입력'),
+        ),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _getSetInfo(),
+                const SizedBox(
+                  height: 20,
+                ),
+                const SizedBox(
+                  height: 200,
+                ),
+                FilledButton.tonal(
+                  onPressed: () {},
+                  child: const Text('예측'),
+                )
+              ],
             ),
-            const SizedBox(
-              height: 100,
-            ),
-            FilledButton.tonal(
-              onPressed: () {},
-              child: const Text('예측'),
-            )
-          ],
+          ),
         ),
       ),
     );
