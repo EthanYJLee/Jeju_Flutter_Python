@@ -87,6 +87,12 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		
 		String uName=dao.NaverCheck(uId);
 		
+		if (uName==null) {
+			uName="";
+		}
+		
+		System.out.println(uName);
+		
 		JSONObject jsonList = new JSONObject();
 		JSONArray itemList = new JSONArray();
 		JSONObject tempJson = new JSONObject();

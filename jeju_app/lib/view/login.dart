@@ -188,7 +188,7 @@ class _LoginState extends State<Login> {
 
     if (res.status == NaverLoginStatus.loggedIn) {
       LoginSignUp model = LoginSignUp();
-      String name = await model.naverCheck(id);
+      String? name = await model.naverCheck(id);
 
       if (!mounted) return;
       if (name.isNotEmpty) {
