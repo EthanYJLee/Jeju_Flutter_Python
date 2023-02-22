@@ -31,7 +31,7 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		String uSex = request.getParameter("uSex");
 		String uBirth = request.getParameter("uBirth");
 		
-		int check=dao.ComebackCheck(uId);
+		int check=dao.ComebackCheck(uId, uIdType);
 		
 		if (check==0) {
 			dao.SignUp(uId, uIdType, uPassword, uName, uNickname, uEmail, uSex, uBirth);
@@ -67,6 +67,23 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		String uId=request.getParameter("uId");
 		String uPassword=request.getParameter("uPassword");
 		int check=dao.Login(uId, uPassword);
+		
+		JSONObject jsonList = new JSONObject();
+		JSONArray itemList = new JSONArray();
+		JSONObject tempJson = new JSONObject();
+		
+		tempJson.put("check", check);
+		itemList.add(tempJson);
+		jsonList.put("results", itemList);
+		model.addAttribute("result", jsonList.toJSONString());
+	}
+
+	@Override
+	public void NaverCheck(HttpServletRequest request, Model model) throws Exception {
+		// TODO Auto-generated method stub
+		String uId=request.getParameter("uId");
+		
+		int check=dao.NaverCheck(uId);
 		
 		JSONObject jsonList = new JSONObject();
 		JSONArray itemList = new JSONArray();

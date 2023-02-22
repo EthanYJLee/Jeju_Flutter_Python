@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:jeju_app/model/login_signup.dart';
-import 'package:jeju_app/view/join.dart';
 import 'package:jeju_app/view/menu.dart';
+import 'package:jeju_app/view/terms.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -71,17 +72,46 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
+              GestureDetector(
+                onTap: () {
+                  _naverLogin();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                  child: Image.asset(
+                    'images/btnW_완성형.png',
+                    width: 200,
+                    height: 100,
+                  ),
+                ),
+              ),
               TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: ((context) => const Join()),
+                      builder: ((context) => const Terms(naver: null)),
                     ),
                   );
                 },
                 child: const Text(
                   '회원가입',
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final NaverLoginResult res = await FlutterNaverLogin.logOut();
+                },
+                child: const Text(
+                  '로그아웃',
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  FlutterNaverLogin.logOutAndDeleteToken();
+                },
+                child: const Text(
+                  '연동 해제',
                 ),
               ),
             ],
@@ -100,7 +130,9 @@ class _LoginState extends State<Login> {
     bool check =
         await model.login(idController.text.trim(), pwController.text.trim());
 
+    if (!mounted) return;
     if (check) {
+      Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -109,6 +141,37 @@ class _LoginState extends State<Login> {
           },
         ),
       );
+    }
+  }
+
+  _naverLogin() async {
+    final NaverLoginResult res = await FlutterNaverLogin.logIn();
+    String id = res.account.id;
+
+    if (res.status == NaverLoginStatus.loggedIn) {
+      LoginSignUp model = LoginSignUp();
+      bool check = await model.naverCheck(id);
+
+      if (!mounted) return;
+      if (check) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return Menu();
+            },
+          ),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return Terms(naver: res.account);
+            },
+          ),
+        );
+      }
     }
   }
 }

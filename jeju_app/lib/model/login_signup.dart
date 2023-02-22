@@ -47,4 +47,21 @@ class LoginSignUp {
       return true;
     }
   }
+
+  //Desc: 네이버로 회원가입되어있는지 확인
+  //Date: 2023-02-22
+  Future<bool> naverCheck(String uId) async{
+    String url='http://${Shared.ipAddress}:8080/navercheck?uId=$uId';
+    var uri=Uri.parse(url);
+    var result=await http.get(uri);
+    var dataConvertedJson = json.decode(utf8.decode(result.bodyBytes));
+    int check=dataConvertedJson['results'][0]['check'];
+
+    if (check==0){
+      return false;
+    } else{
+      return true;
+    }
+  }
+
 }

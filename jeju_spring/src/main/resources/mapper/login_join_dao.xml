@@ -5,7 +5,7 @@
 						
 <mapper namespace="com.jeju.base.dao.LoginSignUpDao">
 
-	<!-- 회원가입(2022-02-21) -->
+	<!-- 회원가입(2023-02-21) -->
 	<insert id='SignUp'>
 		insert into `user`
 		(uId,uIdType,uPassword,uName,uNickname,uEmail,uSex,uBirth,uDate)
@@ -13,25 +13,30 @@
 		(#{uId},#{uIdType},#{uPassword},#{uName},#{uNickname},#{uEmail},#{uSex},#{uBirth},now());
 	</insert>
 	
-	<!-- 삭제한 사용자가 돌아왔는지 체크(2022-02-22) -->
+	<!-- 삭제한 사용자가 돌아왔는지 체크(2023-02-22) -->
 	<select id='ComebackCheck' resultType="int">
-		select count(*) from `user` where uId=#{uId} and uIdType='common and uDdate is not null;
+		select count(*) from `user` where uId=#{uId} and uIdType=#{uIdType} and uDdate is not null;
 	</select>
 	
-	<!-- 삭제한 사용자 복귀(2022-02-22) -->
+	<!-- 삭제한 사용자 복귀(2023-02-22) -->
 	<update id='ComeBack'>
 		update `user` set
 		uPassword=#{uPassword},uName=#{uName},uNickname=#{uNickname},uEmail=#{uEmail},uSex=#{uSex},uBirth=#{uBirth},uDdate=null
 		where uId=#{uId};
 	</update>
 	
-	<!-- ID 중복체크(2022-02-22) -->
+	<!-- ID 중복체크(2023-02-22) -->
 	<select id='IdCheck' resultType="int">
 		select count(*) from `user` where uId=#{uId} and uIdType='common' and uDdate is null;
 	</select>
 	
-	<!-- 로그인(2022-02-22) -->
+	<!-- 로그인(2023-02-22) -->
 	<select id='Login' resultType="int">
 		select count(*) from `user` where uId=#{uId} and uPassword=#{uPassword} and uIdType="common" and uDdate is null;
+	</select>
+	
+	<!-- 네이버 로그인 체크(2023-02-22 -->
+	<select id='NaverCheck' resultType="int">
+		select count(*) from `user` where uId=#{uId} and uIdType="naver" and uDdate is null;
 	</select>
 </mapper>

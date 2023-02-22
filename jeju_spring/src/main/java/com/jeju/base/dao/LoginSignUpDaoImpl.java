@@ -35,7 +35,7 @@ public class LoginSignUpDaoImpl implements LoginSignUpDao {
 	//Desc: 삭제한 사용자가 돌아왔는지 체크
 	//Date: 2023-02-22
 	@Override
-	public int ComebackCheck(String uId) throws Exception {
+	public int ComebackCheck(String uId, String uIdType) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(nameSpace + ".ComebackCheck");
 	}
@@ -47,6 +47,12 @@ public class LoginSignUpDaoImpl implements LoginSignUpDao {
 			String uSex, String uBirth) throws Exception {
 		// TODO Auto-generated method stub
 		sqlSession.update(nameSpace + ".ComeBack");
+	}
+
+	@Override
+	public int NaverCheck(String uId) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(nameSpace + ".NaverCheck");
 	}
 
 }
