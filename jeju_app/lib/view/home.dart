@@ -11,6 +11,7 @@ import 'package:jeju_app/util/popup_news.dart';
 import 'package:jeju_app/view/predict.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -26,6 +27,19 @@ class _HomeState extends State<Home> {
   bool isLoading = true;
   Future initNews() async {
     news = await getNews();
+  }
+
+  // Desc: Shared Preferences 받기
+  // Date: 2023-02-22
+  // youngjin
+  late String uId = '';
+  late String uName = '';
+  late String uNickname = '';
+  _initSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      uId = prefs.getString('uId') ?? '';
+    });
   }
 
   @override
@@ -48,44 +62,49 @@ class _HomeState extends State<Home> {
       width: 350,
       child: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: news.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 60,
-                    width: 160,
-                    padding: const EdgeInsets.all(2),
-                    child: Card(
-                      elevation: 2,
-                      color: Color.fromARGB(219, 245, 168, 74),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(CardDialog(builder: (context) {
-                            return PopupNews(
-                                title: news[index].title,
-                                description: news[index].description,
-                                originallink: news[index].originallink);
-                          }));
-                        },
-                        child: Column(
-                          children: [
-                            Text(
-                              news[index].title,
-                              style: const TextStyle(
-                                  fontSize: 17, color: Colors.white),
-                              maxLines: 4,
+          isLoading
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [CircularProgressIndicator()],
+                )
+              : Expanded(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: news.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          height: 60,
+                          width: 160,
+                          padding: const EdgeInsets.all(2),
+                          child: Card(
+                            elevation: 2,
+                            color: Color.fromARGB(219, 245, 168, 74),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .push(CardDialog(builder: (context) {
+                                  return PopupNews(
+                                      title: news[index].title,
+                                      description: news[index].description,
+                                      originallink: news[index].originallink);
+                                }));
+                              },
+                              child: Column(
+                                children: [
+                                  Text(
+                                    news[index].title,
+                                    style: const TextStyle(
+                                        fontSize: 17, color: Colors.black),
+                                    maxLines: 4,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-          ),
+                          ),
+                        );
+                      }),
+                ),
         ],
       ),
     );
@@ -141,17 +160,13 @@ class _HomeState extends State<Home> {
                           children: const [
                             Text(
                               '매장명',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  // fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                              style:
+                                  TextStyle(fontSize: 17, color: Colors.black),
                             ),
                             Text(
                               '주소',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  // fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                              style:
+                                  TextStyle(fontSize: 17, color: Colors.black),
                             ),
                           ],
                         ),
@@ -170,7 +185,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(100, 154, 155, 151),
+      backgroundColor: Color.fromARGB(223, 200, 199, 188),
       appBar: AppBar(
         title: const Text('Home'),
       ),
@@ -181,6 +196,7 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.all(20.0),
               child: Text(
                 '매장을 선택해주세요',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Container(
@@ -192,6 +208,7 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.all(20.0),
               child: Text(
                 '오늘의 이슈',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             _viewNews()

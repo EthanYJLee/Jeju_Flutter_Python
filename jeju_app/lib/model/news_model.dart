@@ -11,6 +11,6 @@ class NewsModel {
   NewsModel.fromMap(Map<String, dynamic>? map) {
     title = map?['title'] ?? '';
     description = map?['description'] ?? '';
-    originallink = map?[originallink] ?? '';
+    originallink = map?['originallink'] ?? '';
   }
 }

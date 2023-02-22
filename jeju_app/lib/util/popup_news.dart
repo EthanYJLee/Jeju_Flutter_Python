@@ -43,6 +43,7 @@ class PopupNews extends StatelessWidget {
                         Text(
                           title,
                           maxLines: 30,
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
                           height: 20,
@@ -54,22 +55,24 @@ class PopupNews extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                launchUrlString(originallink);
-                              },
-                              child: const Text('원문 보기'),
-                            ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('닫기'))
-                          ],
+                        InkWell(
+                          onTap: () {
+                            launchUrlString(originallink);
+                          },
+                          child: const Text('원문 보기'),
                         ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Color.fromARGB(219, 245, 168, 74),
+                            ),
+                            child: const Text('닫기')),
                       ],
                     ),
                   ),
