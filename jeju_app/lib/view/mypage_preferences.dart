@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jeju_app/view/mypage_preferences_profile.dart';
 
 class MyPage_Preferences extends StatefulWidget {
   const MyPage_Preferences({super.key});
@@ -40,7 +41,12 @@ class _MyPage_PreferencesState extends State<MyPage_Preferences> {
                 children: [
                   TextButton(
                       onPressed: () {
-                        //--
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MyPage_Profile(),
+                          ),
+                        );
                       },
                       child: const Text('계정 / 정보 관리',
                           style: TextStyle(fontSize: 18, color: Colors.black))),
