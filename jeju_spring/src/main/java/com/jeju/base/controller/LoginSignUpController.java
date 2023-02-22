@@ -31,6 +31,8 @@ public class LoginSignUpController {
 		return "result";
 	}
 	
+	//Desc: 로그인
+	//Date: 2023-02-22
 	@RequestMapping("/login")
 	public String Login(HttpServletRequest request, Model model) throws Exception{
 		service.Login(request, model);

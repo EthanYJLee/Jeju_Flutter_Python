@@ -70,12 +70,12 @@ class _JoinState extends State<Join> {
                       decoration: InputDecoration(
                         labelText: idCont.text.trim().isEmpty
                             ? 'ID를 입력하세요.'
-                            : correctId
+                            : !correctId
                                 ? '사용 불가능한 ID입니다.'
                                 : !idCheck
                                     ? '중복된 ID입니다.'
                                     : '사용 가능한 ID입니다.',
-                        hintText: '영문 소문자와 숫자를 모두 포함하여 5~20자리',
+                        hintText: '영문 소문자와 숫자를 포함하여 5~20자리',
                         icon: const Icon(Icons.account_circle),
                       ),
                       onChanged: (value) async {
@@ -112,7 +112,7 @@ class _JoinState extends State<Join> {
                             : correctPw
                                 ? '사용 가능한 비밀번호입니다.'
                                 : '사용 불가능한 비밀번호입니다.',
-                        hintText: '영문 소문자와 숫자를 모두 포함하여 8~16자리',
+                        hintText: '영문 소문자와 숫자를 포함하여 8~16자리',
                         icon: const Icon(Icons.lock),
                       ),
                       obscureText: true,
@@ -335,7 +335,7 @@ class _JoinState extends State<Join> {
                               correctEmail &
                               (birth != 'null')
                           ? () {
-                              _join();
+                              _joinConfirm();
                             }
                           : null,
                       child: const Text(
@@ -358,8 +358,15 @@ class _JoinState extends State<Join> {
   //Date: 2023-02-21
   _join() async {
     LoginSignUp model = LoginSignUp();
-    model.join(idCont.text.trim(), 'common', pwCont.text.trim(),
-        nicknameCont.text.trim(), emailCont.text.trim(), sex, birth);
+    model.join(
+        idCont.text.trim(),
+        'common',
+        pwCont.text.trim(),
+        nameCont.text.trim(),
+        nicknameCont.text.trim(),
+        emailCont.text.trim(),
+        sex,
+        birth);
   }
 
   //Desc: 생년월일 다이얼로그
@@ -392,5 +399,72 @@ class _JoinState extends State<Join> {
     LoginSignUp model = LoginSignUp();
 
     return await model.idCheck(idCont.text.trim());
+  }
+
+  //Desc: 회원가입 확인 다이얼로그
+  //Date: 2023-02-22
+  _joinConfirm() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            '회원가입',
+          ),
+          content: const Text(
+            '회원가입을 하시겠습니까?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                '취소',
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                _join();
+                Navigator.of(context).pop();
+                _joinDialog();
+              },
+              child: const Text(
+                '확인',
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //Desc: 회원가입 확인 다이얼로그
+  //Date: 2023-02-22
+  _joinDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            '환영합니다!',
+          ),
+          content: const Text(
+            '회원가입이 완료되었습니다.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pop(context);
+              },
+              child: const Text(
+                '확인',
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

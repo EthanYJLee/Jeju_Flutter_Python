@@ -30,9 +30,14 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		String uEmail = request.getParameter("uEmail");
 		String uSex = request.getParameter("uSex");
 		String uBirth = request.getParameter("uBirth");
-
-		dao.SignUp(uId, uIdType, uPassword, uName, uNickname, uEmail, uSex, uBirth);
-
+		
+		int check=dao.ComebackCheck(uId);
+		
+		if (check==0) {
+			dao.SignUp(uId, uIdType, uPassword, uName, uNickname, uEmail, uSex, uBirth);
+		} else {
+			dao.ComeBack(uId, uIdType, uPassword, uName, uNickname, uEmail, uSex, uBirth);
+		}
 	}
 
 	// Desc: ID 중복체크
@@ -54,6 +59,8 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		model.addAttribute("result", jsonList.toJSONString());
 	}
 
+	//Desc: 로그인
+	//Date: 2023-02-22
 	@Override
 	public void Login(HttpServletRequest request, Model model) throws Exception {
 		// TODO Auto-generated method stub
@@ -70,4 +77,5 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		jsonList.put("results", itemList);
 		model.addAttribute("result", jsonList.toJSONString());
 	}
+
 }

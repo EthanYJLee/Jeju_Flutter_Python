@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:jeju_app/model/login_signup.dart';
-import 'package:jeju_app/view/home.dart';
 import 'package:jeju_app/view/join.dart';
 import 'package:jeju_app/view/menu.dart';
 
@@ -108,7 +105,7 @@ class _LoginState extends State<Login> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return const Home();
+            return const Menu();
           },
         ),
       );

@@ -23,9 +23,9 @@ class LoginSignUp {
 
   //Desc: 회원가입
   //Date: 2023-02-21
-  Future<bool> join(String uId, String uIdType, String uPassword, String uNickname,
+  Future<bool> join(String uId, String uIdType, String uPassword, String uName, String uNickname,
       String uEmail, String uSex, String uBirth) async {
-    String url='http://${Shared.ipAddress}:8080/join?uId=$uId&uIdType=$uIdType&uPassword=$uPassword&uNickname=$uNickname&uEmail=$uEmail&uSex=$uSex&uBirth=$uBirth';
+    String url='http://${Shared.ipAddress}:8080/join?uId=$uId&uIdType=$uIdType&uPassword=$uPassword&uNickname=$uNickname&uEmail=$uEmail&uSex=$uSex&uBirth=$uBirth&uName=$uName';
     var uri=Uri.parse(url);
     http.get(uri);
     return true;
