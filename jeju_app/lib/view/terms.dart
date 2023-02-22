@@ -78,7 +78,7 @@ class _TermsState extends State<Terms> {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -104,14 +104,41 @@ class _TermsState extends State<Terms> {
     LoginSignUp model = LoginSignUp();
     model.join(id, 'naver', '', name, nickname, email, sex, birth);
 
-    if (!mounted) return;
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return const Menu();
-        },
-      ),
+    _naverDialog();
+  }
+
+  //Desc: 네이버 회원가입 다이얼로그
+  //Date: 2023-02-22
+  _naverDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            '네이버 회원가입을 환영합니다.',
+          ),
+          content: const Text(
+            '네이버 회원가입이 완료되었습니다.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const Menu();
+                    },
+                  ),
+                );
+              },
+              child: const Text(
+                '확인',
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

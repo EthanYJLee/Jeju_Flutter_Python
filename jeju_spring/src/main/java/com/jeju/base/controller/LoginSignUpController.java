@@ -40,7 +40,7 @@ public class LoginSignUpController {
 		return "result";
 	}
 	
-	//Desc: 네이버로 회원가입이 되어 있는지 체크
+	//Desc: 네이버로 회원가입이 되어 있는지 확인
 	//Date: 2023-02-22
 	@RequestMapping("/navercheck")
 	public String NaverCheck(HttpServletRequest request, Model model) throws Exception{

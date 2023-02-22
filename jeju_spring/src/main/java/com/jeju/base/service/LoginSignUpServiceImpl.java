@@ -78,6 +78,8 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		model.addAttribute("result", jsonList.toJSONString());
 	}
 
+	//Desc: 네이버로 회원가입 되어 있는지 확인
+	//Date: 2023-02-22
 	@Override
 	public void NaverCheck(HttpServletRequest request, Model model) throws Exception {
 		// TODO Auto-generated method stub
