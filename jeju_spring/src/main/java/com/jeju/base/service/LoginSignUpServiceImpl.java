@@ -68,6 +68,10 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		String uPassword=request.getParameter("uPassword");
 		String uName=dao.Login(uId, uPassword);
 		
+		if (uName==null) {
+			uName="";
+		}
+		
 		JSONObject jsonList = new JSONObject();
 		JSONArray itemList = new JSONArray();
 		JSONObject tempJson = new JSONObject();
@@ -90,8 +94,6 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		if (uName==null) {
 			uName="";
 		}
-		
-		System.out.println(uName);
 		
 		JSONObject jsonList = new JSONObject();
 		JSONArray itemList = new JSONArray();
