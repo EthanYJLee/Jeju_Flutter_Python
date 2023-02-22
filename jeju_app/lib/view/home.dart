@@ -34,11 +34,11 @@ class _HomeState extends State<Home> {
   // youngjin
   late String uId = '';
   late String uName = '';
-  late String uNickname = '';
   _initSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       uId = prefs.getString('uId') ?? '';
+      uName = prefs.getString('uName') ?? '';
     });
   }
 
@@ -79,7 +79,6 @@ class _HomeState extends State<Home> {
                           padding: const EdgeInsets.all(2),
                           child: Card(
                             elevation: 2,
-                            color: Color.fromARGB(219, 245, 168, 74),
                             child: InkWell(
                               onTap: () {
                                 Navigator.of(context)
@@ -121,7 +120,7 @@ class _HomeState extends State<Home> {
           style: BorderStyle.solid,
           width: 1,
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(5),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -147,7 +146,6 @@ class _HomeState extends State<Home> {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15))),
                       elevation: 2,
-                      color: Color.fromARGB(219, 245, 168, 74),
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context)
@@ -185,7 +183,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(223, 200, 199, 188),
       appBar: AppBar(
         title: const Text('Home'),
       ),
