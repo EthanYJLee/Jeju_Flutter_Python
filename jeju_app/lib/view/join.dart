@@ -11,6 +11,7 @@ class Join extends StatefulWidget {
 class _JoinState extends State<Join> {
   TextEditingController idCont = TextEditingController();
   late bool correctId;
+  late bool idCheck;
   TextEditingController pwCont = TextEditingController();
   late bool correctPw;
   TextEditingController pwcheckCont = TextEditingController();
@@ -33,6 +34,7 @@ class _JoinState extends State<Join> {
     // TODO: implement initState
     super.initState();
     correctId = false;
+    idCheck = false;
     correctPw = false;
     correctName = false;
     correctNickName = false;
@@ -65,22 +67,30 @@ class _JoinState extends State<Join> {
                     width: 300,
                     child: TextField(
                       controller: idCont,
-                      decoration: const InputDecoration(
-                        labelText: 'ID를 입력하세요',
-                        icon: Icon(Icons.account_circle),
+                      decoration: InputDecoration(
+                        labelText: idCont.text.trim().isEmpty
+                            ? 'ID를 입력하세요.'
+                            : correctId
+                                ? '사용 불가능한 ID입니다.'
+                                : !idCheck
+                                    ? '중복된 ID입니다.'
+                                    : '사용 가능한 ID입니다.',
+                        hintText: '영문 소문자와 숫자를 모두 포함하여 5~20자리',
+                        icon: const Icon(Icons.account_circle),
                       ),
                       onChanged: (value) async {
                         bool check = await _idCheck();
                         if (idReg.hasMatch(value.trim())) {
                           if (!check) {
                             setState(() {
-                              correctId = true;
+                              idCheck = true;
                             });
                           } else {
                             setState(() {
-                              correctId = false;
+                              idCheck = false;
                             });
                           }
+                          correctId = true;
                         } else {
                           setState(() {
                             correctId = false;
@@ -96,9 +106,14 @@ class _JoinState extends State<Join> {
                     width: 300,
                     child: TextField(
                       controller: pwCont,
-                      decoration: const InputDecoration(
-                        labelText: '비밀번호를 입력하세요',
-                        icon: Icon(Icons.lock),
+                      decoration: InputDecoration(
+                        labelText: pwCont.text.trim().isEmpty
+                            ? '비밀번호를 입력하세요'
+                            : correctPw
+                                ? '사용 가능한 비밀번호입니다.'
+                                : '사용 불가능한 비밀번호입니다.',
+                        hintText: '영문 소문자와 숫자를 모두 포함하여 8~16자리',
+                        icon: const Icon(Icons.lock),
                       ),
                       obscureText: true,
                       onChanged: (value) {
@@ -106,6 +121,15 @@ class _JoinState extends State<Join> {
                           setState(() {
                             correctPw = true;
                           });
+                          if (value.trim() == pwcheckCont.text.trim()) {
+                            setState(() {
+                              pwcheck = true;
+                            });
+                          } else {
+                            setState(() {
+                              pwcheck = false;
+                            });
+                          }
                         } else {
                           setState(() {
                             correctPw = false;
@@ -121,9 +145,14 @@ class _JoinState extends State<Join> {
                     width: 300,
                     child: TextField(
                       controller: pwcheckCont,
-                      decoration: const InputDecoration(
-                        labelText: '비밀번호를 다시 한 번 입력하세요',
-                        icon: Icon(Icons.check),
+                      decoration: InputDecoration(
+                        labelText: pwcheckCont.text.trim().isEmpty
+                            ? '비밀번호를 다시 한 번 입력하세요'
+                            : pwcheck
+                                ? '비밀번호가 일치합니다.'
+                                : '비밀번호가 일치하지 않습니다.',
+                        hintText: '영문 소문자와 숫자를 모두 포함하여 8~16자리',
+                        icon: const Icon(Icons.check),
                       ),
                       obscureText: true,
                       onChanged: (value) {
@@ -298,6 +327,7 @@ class _JoinState extends State<Join> {
                     ),
                     ElevatedButton(
                       onPressed: correctId &
+                              idCheck &
                               correctPw &
                               pwcheck &
                               correctName &

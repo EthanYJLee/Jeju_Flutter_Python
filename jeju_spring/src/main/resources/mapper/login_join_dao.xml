@@ -17,4 +17,8 @@
 	<select id='IdCheck' resultType="int">
 		select count(*) from `user` where uId=#{uId} and uDdate is null;
 	</select>
+	
+	<select id='Login' resultType="int">
+		select count(*) from `user` where uId=#{uId} and uPassword=#{uPassword} and uIdType="common" and uDdate is null;
+	</select>
 </mapper>

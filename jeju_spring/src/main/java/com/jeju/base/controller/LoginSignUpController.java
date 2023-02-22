@@ -30,4 +30,11 @@ public class LoginSignUpController {
 		
 		return "result";
 	}
+	
+	@RequestMapping("/login")
+	public String Login(HttpServletRequest request, Model model) throws Exception{
+		service.Login(request, model);
+		
+		return "result";
+	}
 }

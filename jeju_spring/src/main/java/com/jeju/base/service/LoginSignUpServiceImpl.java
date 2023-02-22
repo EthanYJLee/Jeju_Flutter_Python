@@ -53,4 +53,21 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		jsonList.put("results", itemList);
 		model.addAttribute("result", jsonList.toJSONString());
 	}
+
+	@Override
+	public void Login(HttpServletRequest request, Model model) throws Exception {
+		// TODO Auto-generated method stub
+		String uId=request.getParameter("uId");
+		String uPassword=request.getParameter("uPassword");
+		int check=dao.Login(uId, uPassword);
+		
+		JSONObject jsonList = new JSONObject();
+		JSONArray itemList = new JSONArray();
+		JSONObject tempJson = new JSONObject();
+		
+		tempJson.put("check", check);
+		itemList.add(tempJson);
+		jsonList.put("results", itemList);
+		model.addAttribute("result", jsonList.toJSONString());
+	}
 }

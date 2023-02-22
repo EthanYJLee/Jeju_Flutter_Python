@@ -7,8 +7,18 @@ import '../util/shared.dart';
 class LoginSignUp {
   //Desc: 로그인
   //Date: 2023-02-21
-  login() async {
-    //--
+  Future<bool> login(String uId, String uPassword) async {
+    String url='http://${Shared.ipAddress}:8080/login?uId=$uId&uPassword=$uPassword';
+    var uri=Uri.parse(url);
+    var result=await http.get(uri);
+    var dataConvertedJson = json.decode(utf8.decode(result.bodyBytes));
+    int check=dataConvertedJson['results'][0]['check'];
+
+    if (check==0){
+      return false;
+    } else{
+      return true;
+    }
   }
 
   //Desc: 회원가입

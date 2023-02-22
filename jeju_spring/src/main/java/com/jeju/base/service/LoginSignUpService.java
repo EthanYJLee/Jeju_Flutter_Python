@@ -10,4 +10,5 @@ public interface LoginSignUpService {
 
 	public void SignUp(HttpServletRequest request) throws Exception;
 	public void IdCheck(HttpServletRequest request, Model model) throws Exception;
+	public void Login(HttpServletRequest request, Model model) throws Exception;
 }

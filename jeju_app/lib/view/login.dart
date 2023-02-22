@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:jeju_app/model/login_signup.dart';
+import 'package:jeju_app/view/home.dart';
 import 'package:jeju_app/view/join.dart';
 import 'package:jeju_app/view/menu.dart';
 
@@ -73,18 +75,18 @@ class _LoginState extends State<Login> {
                 ),
               ),
               TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: ((context) => const Join()),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    '회원가입',
-                  ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => const Join()),
+                    ),
+                  );
+                },
+                child: const Text(
+                  '회원가입',
                 ),
+              ),
             ],
           ),
         ),
@@ -97,6 +99,19 @@ class _LoginState extends State<Login> {
   //Desc: 로그인
   //Date: 2023-02-21
   _login() async {
-    //--
+    LoginSignUp model = LoginSignUp();
+    bool check =
+        await model.login(idController.text.trim(), pwController.text.trim());
+
+    if (check) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const Home();
+          },
+        ),
+      );
+    }
   }
 }

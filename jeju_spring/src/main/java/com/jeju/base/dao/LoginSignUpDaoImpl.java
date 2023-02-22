@@ -24,4 +24,10 @@ public class LoginSignUpDaoImpl implements LoginSignUpDao {
 		return sqlSession.selectOne(nameSpace + ".IdCheck");
 	}
 
+	@Override
+	public int Login(String uId, String uPassword) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(nameSpace + ".Login");
+	}
+
 }
