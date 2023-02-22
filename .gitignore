@@ -393,4 +393,7 @@ AppDelegate.swift
 #Java Class
 .classpath
 
+#Naver API Key
+strings.xml
+
 # End of https://www.toptal.com/developers/gitignore/api/dart,flutter,visualstudiocode,eclipse,java,firebase,macos,windows,linux,swift,kotlin
