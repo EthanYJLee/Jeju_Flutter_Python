@@ -66,13 +66,13 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		// TODO Auto-generated method stub
 		String uId=request.getParameter("uId");
 		String uPassword=request.getParameter("uPassword");
-		int check=dao.Login(uId, uPassword);
+		String uName=dao.Login(uId, uPassword);
 		
 		JSONObject jsonList = new JSONObject();
 		JSONArray itemList = new JSONArray();
 		JSONObject tempJson = new JSONObject();
 		
-		tempJson.put("check", check);
+		tempJson.put("uName", uName);
 		itemList.add(tempJson);
 		jsonList.put("results", itemList);
 		model.addAttribute("result", jsonList.toJSONString());
@@ -85,13 +85,13 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		// TODO Auto-generated method stub
 		String uId=request.getParameter("uId");
 		
-		int check=dao.NaverCheck(uId);
+		String uName=dao.NaverCheck(uId);
 		
 		JSONObject jsonList = new JSONObject();
 		JSONArray itemList = new JSONArray();
 		JSONObject tempJson = new JSONObject();
 		
-		tempJson.put("check", check);
+		tempJson.put("check", uName);
 		itemList.add(tempJson);
 		jsonList.put("results", itemList);
 		model.addAttribute("result", jsonList.toJSONString());

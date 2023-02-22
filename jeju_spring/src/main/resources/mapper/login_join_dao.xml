@@ -31,12 +31,12 @@
 	</select>
 	
 	<!-- 로그인(2023-02-22) -->
-	<select id='Login' resultType="int">
-		select count(*) from `user` where uId=#{uId} and uPassword=#{uPassword} and uIdType="common" and uDdate is null;
+	<select id='Login' resultType="string">
+		select uName from `user` where uId=#{uId} and uPassword=#{uPassword} and uIdType="common" and uDdate is null;
 	</select>
 	
 	<!-- 네이버 로그인 체크(2023-02-22) -->
-	<select id='NaverCheck' resultType="int">
-		select count(*) from `user` where uId=#{uId} and uIdType="naver" and uDdate is null;
+	<select id='NaverCheck' resultType="string">
+		select uName from `user` where uId=#{uId} and uIdType="naver" and uDdate is null;
 	</select>
 </mapper>

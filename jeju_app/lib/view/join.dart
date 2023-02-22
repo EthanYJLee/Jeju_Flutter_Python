@@ -439,7 +439,7 @@ class _JoinState extends State<Join> {
     );
   }
 
-  //Desc: 회원가입 확인 다이얼로그
+  //Desc: 회원가입 다이얼로그
   //Date: 2023-02-22
   _joinDialog() {
     showDialog(

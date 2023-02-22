@@ -27,7 +27,7 @@ public class LoginSignUpDaoImpl implements LoginSignUpDao {
 	//Desc: 로그인
 	//Date: 2023-02-22
 	@Override
-	public int Login(String uId, String uPassword) throws Exception {
+	public String Login(String uId, String uPassword) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(nameSpace + ".Login");
 	}
@@ -52,7 +52,7 @@ public class LoginSignUpDaoImpl implements LoginSignUpDao {
 	//Desc: 네이버로 회원가입 되어 있는지 확인
 	//Date: 2023-02-22
 	@Override
-	public int NaverCheck(String uId) throws Exception {
+	public String NaverCheck(String uId) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(nameSpace + ".NaverCheck");
 	}
