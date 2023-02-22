@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD 3.0//EN"
+						"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+						
+<mapper namespace="com.jeju.base.dao.LoginSignUpDao">
+
+	<!-- 회원가입(2022-02-21) -->
+	<insert id='SignUp'>
+		insert into `user`
+		(uId,uIdType,uPassword,uName,uNickname,uEmail,uSex,uBirth,uDate)
+		values
+		(#{uId},#{uIdType},#{uPassword},#{uName},#{uNickname},#{uEmail},#{uSex},#{uBirth},now());
+	</insert>
+	
+	<!-- ID 중복체크(2022-02-22) -->
+	<select id='IdCheck' resultType="int">
+		select count(*) from `user` where uId=#{uId} and uDdate is null;
+	</select>
+</mapper>

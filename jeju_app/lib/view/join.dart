@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jeju_app/model/login_signup.dart';
 
 class Join extends StatefulWidget {
   const Join({super.key});
@@ -22,6 +23,10 @@ class _JoinState extends State<Join> {
   late bool correctEmail;
   late String sex;
   late String birth;
+  RegExp pwReg = RegExp(r"^[0-9a-z]{8,16}$");
+  RegExp emailReg =
+      RegExp(r"^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+  RegExp idReg = RegExp(r"^[0-9a-z]{5,20}$");
 
   @override
   void initState() {
@@ -34,7 +39,7 @@ class _JoinState extends State<Join> {
     correctEmail = false;
     pwcheck = false;
     sex = '남자';
-    birth = '1900-01-01';
+    birth = 'null';
   }
 
   @override
@@ -62,7 +67,26 @@ class _JoinState extends State<Join> {
                       controller: idCont,
                       decoration: const InputDecoration(
                         labelText: 'ID를 입력하세요',
+                        icon: Icon(Icons.account_circle),
                       ),
+                      onChanged: (value) async {
+                        bool check = await _idCheck();
+                        if (idReg.hasMatch(value.trim())) {
+                          if (!check) {
+                            setState(() {
+                              correctId = true;
+                            });
+                          } else {
+                            setState(() {
+                              correctId = false;
+                            });
+                          }
+                        } else {
+                          setState(() {
+                            correctId = false;
+                          });
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -74,8 +98,20 @@ class _JoinState extends State<Join> {
                       controller: pwCont,
                       decoration: const InputDecoration(
                         labelText: '비밀번호를 입력하세요',
+                        icon: Icon(Icons.lock),
                       ),
                       obscureText: true,
+                      onChanged: (value) {
+                        if (pwReg.hasMatch(value.trim())) {
+                          setState(() {
+                            correctPw = true;
+                          });
+                        } else {
+                          setState(() {
+                            correctPw = false;
+                          });
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -87,8 +123,20 @@ class _JoinState extends State<Join> {
                       controller: pwcheckCont,
                       decoration: const InputDecoration(
                         labelText: '비밀번호를 다시 한 번 입력하세요',
+                        icon: Icon(Icons.check),
                       ),
                       obscureText: true,
+                      onChanged: (value) {
+                        if (value.trim() == pwCont.text) {
+                          setState(() {
+                            pwcheck = true;
+                          });
+                        } else {
+                          setState(() {
+                            pwcheck = false;
+                          });
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -100,7 +148,19 @@ class _JoinState extends State<Join> {
                       controller: nameCont,
                       decoration: const InputDecoration(
                         labelText: '이름을 입력하세요',
+                        icon: Icon(Icons.person),
                       ),
+                      onChanged: (value) {
+                        if (value.trim().isNotEmpty) {
+                          setState(() {
+                            correctName = true;
+                          });
+                        } else {
+                          setState(() {
+                            correctName = false;
+                          });
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -112,7 +172,20 @@ class _JoinState extends State<Join> {
                       controller: nicknameCont,
                       decoration: const InputDecoration(
                         labelText: '닉네임을 입력하세요',
+                        icon: Icon(Icons.person),
                       ),
+                      onChanged: (value) {
+                        if (value.trim().length >= 2 &&
+                            value.trim().length <= 10) {
+                          setState(() {
+                            correctNickName = true;
+                          });
+                        } else {
+                          setState(() {
+                            correctNickName = false;
+                          });
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -121,20 +194,125 @@ class _JoinState extends State<Join> {
                   child: SizedBox(
                     width: 300,
                     child: TextField(
-                        controller: emailCont,
-                        decoration: const InputDecoration(
-                          labelText: '이메일을 입력하세요',
-                        ),
-                        keyboardType: TextInputType.emailAddress),
+                      controller: emailCont,
+                      decoration: const InputDecoration(
+                        labelText: '이메일을 입력하세요',
+                        icon: Icon(Icons.email),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (value) {
+                        if (emailReg.hasMatch(value)) {
+                          setState(() {
+                            correctEmail = true;
+                          });
+                        } else {
+                          setState(() {
+                            correctEmail = false;
+                          });
+                        }
+                      },
+                    ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    //--
-                  },
-                  child: const Text(
-                    '회원가입',
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      '성별',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Radio(
+                      value: '남자',
+                      groupValue: sex,
+                      onChanged: (value) {
+                        setState(() {
+                          sex = value!;
+                        });
+                      },
+                    ),
+                    const Text(
+                      '남자',
+                    ),
+                    Radio(
+                      value: '여자',
+                      groupValue: sex,
+                      onChanged: (value) {
+                        setState(() {
+                          sex = value!;
+                        });
+                      },
+                    ),
+                    const Text(
+                      '여자',
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      '생년월일',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      birth == 'null' ? '생년월일을 입력하세요' : birth,
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _showDate();
+                      },
+                      child: const Text(
+                        '입력하기',
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        '취소',
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: correctId &
+                              correctPw &
+                              pwcheck &
+                              correctName &
+                              correctNickName &
+                              correctEmail &
+                              (birth != 'null')
+                          ? () {
+                              _join();
+                            }
+                          : null,
+                      child: const Text(
+                        '회원가입',
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -142,5 +320,47 @@ class _JoinState extends State<Join> {
         ),
       ),
     );
+  }
+
+  //Functions
+
+  //Desc: 회원가입
+  //Date: 2023-02-21
+  _join() async {
+    LoginSignUp model = LoginSignUp();
+    model.join(idCont.text.trim(), 'common', pwCont.text.trim(),
+        nicknameCont.text.trim(), emailCont.text.trim(), sex, birth);
+  }
+
+  //Desc: 생년월일 다이얼로그
+  //Date: 2023-02-21
+  _showDate() {
+    Future<DateTime?> selectedDate = showDatePicker(
+      context: context,
+      initialDate: DateTime(1980), //초기값
+      firstDate: DateTime(1900), //시작일
+      lastDate: DateTime.now(), //마지막일
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.dark(),
+          child: child!,
+        );
+      },
+    );
+    selectedDate.then(
+      (value) {
+        setState(() {
+          birth = value.toString().split(' ')[0];
+        });
+      },
+    );
+  }
+
+  //Desc: ID 중복체크
+  //Date: 2023-02-22
+  Future<bool> _idCheck() async {
+    LoginSignUp model = LoginSignUp();
+
+    return await model.idCheck(idCont.text.trim());
   }
 }

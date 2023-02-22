@@ -83,7 +83,7 @@ class _LoginState extends State<Login> {
                   },
                   child: const Text(
                     '회원가입',
-                  )
+                  ),
                 ),
             ],
           ),
