@@ -53,10 +53,6 @@ class PopupCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ElevatedButton(
-                              onPressed: () {},
-                              child: const Text('정보수정'),
-                            ),
-                            ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
                                     context,
