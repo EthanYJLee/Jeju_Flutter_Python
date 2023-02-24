@@ -43,6 +43,7 @@ dependencies:
   flutter_naver_login: ^1.6.0
   html: ^0.15.1
   url_launcher: ^6.0.18
+  month_picker_dialog_2: ^0.6.2
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:jeju_app/view/result.dart';
+import 'package:month_picker_dialog_2/month_picker_dialog_2.dart';
+import 'package:intl/intl.dart';
 
 // Desc: 내 정보 가져오기 / 직접 입력 선택하는 Segmented Button
 // Date: 2023-02-21
@@ -144,26 +147,32 @@ class _PredictState extends State<Predict> {
   Widget _myInfoArea() {
     return Container(
       height: 250,
-      padding: EdgeInsets.only(left: 50, right: 50),
+      padding: EdgeInsets.only(left: 100, right: 100),
       child: Column(
         children: const [
-          Text('매장명'),
           TextField(
             readOnly: true,
+            decoration: InputDecoration(
+              labelText: '매장명',
+            ),
           ),
           SizedBox(
             height: 20,
           ),
-          Text('행정동'),
           TextField(
             readOnly: true,
+            decoration: InputDecoration(
+              labelText: '행정동',
+            ),
           ),
           SizedBox(
             height: 20,
           ),
-          Text('카테고리'),
           TextField(
             readOnly: true,
+            decoration: InputDecoration(
+              labelText: '카테고리',
+            ),
           ),
         ],
       ),
@@ -191,6 +200,7 @@ class _PredictState extends State<Predict> {
     return Container(
       height: 250,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: DropdownMenu(
@@ -225,6 +235,7 @@ class _PredictState extends State<Predict> {
 
   // --------------------------------------------------------
 
+  DateTime? selectedDate;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -245,11 +256,34 @@ class _PredictState extends State<Predict> {
                 const SizedBox(
                   height: 20,
                 ),
+                if (selectedDate == null)
+                  const Text(
+                    '예측하실 년/월을 선택해주세요',
+                    style: TextStyle(fontSize: 20),
+                  )
+                else
+                  Text(
+                    "${DateFormat().add_y().format(selectedDate!)}년 ${DateFormat().add_M().format(selectedDate!)}월",
+                    style: TextStyle(fontSize: 20),
+                  ),
                 const SizedBox(
-                  height: 200,
+                  height: 10,
+                ),
+                TextButton(
+                  child: const Text(
+                    '년/월 선택',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  onPressed: () => _onPressed(),
+                ),
+                const SizedBox(
+                  height: 80,
                 ),
                 FilledButton.tonal(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => Result())));
+                  },
                   child: const Text('예측'),
                 )
               ],
@@ -259,5 +293,35 @@ class _PredictState extends State<Predict> {
       ),
     );
   }
-} // End
+
+  Future<void> _onPressed() {
+    return showMonthPicker(
+      context: context,
+      firstDate: DateTime(DateTime.now().year, DateTime.now().month),
+      lastDate: DateTime(DateTime.now().year + 2, 12),
+      initialDate: selectedDate ?? DateTime.now(),
+      //show only even months
+      headerColor: Colors.orangeAccent[700],
+      headerTextColor: Colors.white,
+      selectedMonthBackgroundColor: Colors.amber[900],
+      selectedMonthTextColor: Colors.white,
+      unselectedMonthTextColor: Colors.black,
+      confirmText: const Text(
+        '선택',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      cancelText: Text('취소'),
+      yearFirst: true,
+      roundedCornersRadius: 20,
+    ).then((date) {
+      if (date != null) {
+        setState(() {
+          selectedDate = date;
+        });
+      }
+    });
+  }
+} // End ---------------------------------------
+
+
 
