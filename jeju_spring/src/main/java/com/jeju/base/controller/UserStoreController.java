@@ -37,8 +37,9 @@ public class UserStoreController {
 	}
 	
 	@RequestMapping("/userSelect")
-	public String UserDataSelect(HttpServletRequest request, Model model) throws Exception {
-		service.UserDataSelect(request,model);
+	public String UserDateSelect(HttpServletRequest request, Model model) throws Exception{
+		service.UserDateSelect(request, model);
 		return "result";
 	}
+	
 }

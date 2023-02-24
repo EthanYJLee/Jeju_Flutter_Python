@@ -14,5 +14,5 @@ public interface UserStoreService {
 	public void UserStoreDelete(HttpServletRequest request) throws Exception;
 	public void UserStoreUpdate(HttpServletRequest request) throws Exception;
 	
-	public void UserDataSelect(HttpServletRequest request, Model model) throws Exception;
+	public void UserDateSelect(HttpServletRequest request, Model model) throws Exception;
 }

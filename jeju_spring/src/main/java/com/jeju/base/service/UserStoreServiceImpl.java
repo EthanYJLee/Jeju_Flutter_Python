@@ -88,14 +88,14 @@ public class UserStoreServiceImpl implements UserStoreService{
 	}
 
 	@Override
-	public void UserDataSelect(HttpServletRequest request, Model model) throws Exception {
+	public void UserDateSelect(HttpServletRequest request, Model model) throws Exception {
 		// TODO Auto-generated method stub
-String uId  = request.getParameter("uId");
+         String uid  = request.getParameter("uid");
 		
 		JSONObject jsonList = new JSONObject();
 	    JSONArray itemList = new JSONArray();
 	    
-	    List<UserStoreDto> dtos = dao.UserDataSelect(uId);
+	    List<UserStoreDto> dtos = dao.UserStoreSelect(uid);
 	    
 	    for(int i =0; i<dtos.size(); i++) {
 	    	JSONObject tempJson = new JSONObject();
@@ -104,14 +104,15 @@ String uId  = request.getParameter("uId");
 	    	tempJson.put("uNickname", dtos.get(i).getuNickname());
 	    	tempJson.put("uEmail", dtos.get(i).getuEmail());
 	    	tempJson.put("uSex", dtos.get(i).getuSex());
-	    	tempJson.put("uBirth", dtos.get(i).getuBirth());
 	    	
 	    	itemList.add(tempJson);
 	    }
         jsonList.put("results",itemList);
         model.addAttribute("result", jsonList.toJSONString());
-		
+
 	}
+
+	
 	
 
 }

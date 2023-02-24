@@ -52,4 +52,21 @@ class Store {
     http.get(uri);
     return true;
   }
+
+  //유저select
+  Future<List> userSelect(String uid) async {
+    print(uid);
+    String url = 'http://localhost:8080/userSelect?uId=$uid';
+    // print(url);
+    var uri = Uri.parse(url);
+    print(uri);
+    var result = await http.get(uri);
+    print(result);
+    var dataConvertedJson = json.decode(utf8.decode(result.bodyBytes));
+    print(dataConvertedJson);
+    List storeResult = dataConvertedJson['results'];
+    print(storeResult);
+    // print(storeResult);
+    return storeResult;
+  }
 }

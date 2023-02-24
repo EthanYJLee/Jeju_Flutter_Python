@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jeju_app/model/store.dart';
 
 class MyPage_Profile extends StatefulWidget {
   const MyPage_Profile({super.key});
@@ -17,6 +18,9 @@ class _MyPage_ProfileState extends State<MyPage_Profile> {
   late String userBrith;
   late String userSex;
 
+  Store store = Store();
+  late List storetitle;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -24,6 +28,9 @@ class _MyPage_ProfileState extends State<MyPage_Profile> {
     userName = TextEditingController();
     userBrith = 'null';
     userSex = '남자';
+
+    storetitle = [];
+    storeS();
   }
 
   @override
@@ -320,5 +327,17 @@ class _MyPage_ProfileState extends State<MyPage_Profile> {
         });
       },
     );
+  }
+
+  //Functions
+  storeS() async {
+    List listTest = [];
+    listTest = await store.userSelect('test');
+    setState(() {
+      storetitle = listTest;
+    });
+    // print(storetitle);
+    // print(storetitle.length);
+    // print(storetitle[0]['sAddress']);
   }
 }//end

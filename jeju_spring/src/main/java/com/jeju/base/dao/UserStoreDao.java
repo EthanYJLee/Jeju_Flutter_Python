@@ -9,5 +9,6 @@ public interface UserStoreDao {
 	public void UserStoreAdd(String sName, String sCategory,String sDong,String sTel,String sAddress,String user_uId,String user_uIdType);
 	public void UserStoreDelete(int sId);
 	public void UserStoreUpdate(String sName, String sCategory,String sDong,String sTel,String sAddress, int sId);
-	public List<UserStoreDto> UserDataSelect(String uId);
+	
+	public List<UserStoreDto> UserDateSelect(String uid) throws Exception;
 }

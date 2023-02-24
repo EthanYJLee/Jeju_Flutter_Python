@@ -32,10 +32,11 @@ public class UserStoreDaoImpl implements UserStoreDao {
 		sqlSession.update(nameSpace + ".UserStoreUpdate");
 	}
 	@Override
-	public List<UserStoreDto> UserDataSelect(String uId){
+	public List<UserStoreDto> UserDateSelect(String uid) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(nameSpace + ".UserDataSelect");
+		return sqlSession.selectList(nameSpace + ".UserDateSelect");
 	}
+
 	
 	
 	
