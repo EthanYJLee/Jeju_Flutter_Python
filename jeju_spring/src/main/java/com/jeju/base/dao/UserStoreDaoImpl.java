@@ -35,7 +35,6 @@ public class UserStoreDaoImpl implements UserStoreDao {
 	public List<UserStoreDto> UserDataSelect(String uId){
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(nameSpace + ".UserDataSelect");
-		
 	}
 	
 	

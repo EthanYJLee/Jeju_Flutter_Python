@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:jeju_app/model/message.dart';
 import 'package:jeju_app/model/store.dart';
 
 import 'package:jeju_app/view/mypage_store_add.dart';
+import 'package:jeju_app/view/mypage_store_detail.dart';
 
 class MyPage_Store extends StatefulWidget {
   const MyPage_Store({super.key});
@@ -92,7 +94,19 @@ class _MyPage_StoreState extends State<MyPage_Store> {
           return GestureDetector(
             // onLongPress: () {
             onTap: () {
-              _cardOnTap(context, index);
+              // _cardOnTap(context, index);
+              Message.sName = storetitle[index]['sName'];
+              Message.sCategory = storetitle[index]['sCategory'];
+              Message.sDong = storetitle[index]['sDong'];
+              Message.sTel = storetitle[index]['sTel'];
+              Message.sAddress = storetitle[index]['sAddress'];
+              Message.sId = storetitle[index]['sId'];
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MyPage_Store_Detail(),
+                ),
+              ).then((value) => storeS());
             },
             child: Card(
               // color: Colors.grey,
@@ -183,6 +197,9 @@ class _MyPage_StoreState extends State<MyPage_Store> {
     correctionName.text = storetitle[index]['sName'];
     setState(() {
       selectedItem3 = storetitle[index]['sCategory'];
+      selectedItem = storetitle[index]['sDong'];
+      // correctionTel = storetitle[index]['sTel'];
+      // correctionAddress = storetitle[index]['sAddress'];
     });
     showDialog(
       context: context,

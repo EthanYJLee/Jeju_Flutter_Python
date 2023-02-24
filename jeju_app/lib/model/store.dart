@@ -38,6 +38,7 @@ class Store {
       String sTel, String sAddress, int sId) async {
     String url =
         'http://localhost:8080/storeUpdate?sName=$sName&sCategory=$sCategory&sDong=$sDong&sTel=$sTel&sAddress=$sAddress&sId=$sId';
+    print(url);
     var uri = Uri.parse(url);
     http.get(uri);
     return true;

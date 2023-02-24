@@ -46,8 +46,8 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
     jejucityList = ['제주시', '서귀포시'];
     selectedItem = jejucityList[0];
 
-    jejuadministrationList1 = ['선택하세요', 'test1', 'test2', 'test3'];
-    jejuadministrationList2 = ['선택하세요', 'test5', 'test6', 'test7'];
+    jejuadministrationList1 = ['선택하세요', '제주시1', '제주시2', '제주시3'];
+    jejuadministrationList2 = ['선택하세요', '서귀포시1', '서귀포시2', '서귀포시3'];
     selectedItem2 = jejuadministrationList1[0];
 
     jejucity = {
