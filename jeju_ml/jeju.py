@@ -49,7 +49,7 @@ def jeju():
     return jsonify({'result': str(pre[0])})
     
 
-
+# host_add = 'localhost'
 host_add = '127.0.0.1'
 port_num = 5000
 

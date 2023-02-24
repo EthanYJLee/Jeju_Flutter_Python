@@ -370,7 +370,7 @@ class _PredictState extends State<Predict> {
           return AlertDialog(
             title: const Text('예측 결과'),
             content: Text(
-              '선택하신 달의 매출 예측 결과는\n $result 입니다.',
+              '선택하신 달의\n$dong $category업종\n매출 예측 결과는\n$result 입니다.',
               textAlign: TextAlign.center,
             ),
             actions: [
