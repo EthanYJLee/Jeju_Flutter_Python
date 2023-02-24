@@ -4,6 +4,7 @@ import 'package:jeju_app/model/store.dart';
 
 import 'package:jeju_app/view/mypage_store_add.dart';
 import 'package:jeju_app/view/mypage_store_detail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyPage_Store extends StatefulWidget {
   const MyPage_Store({super.key});
@@ -154,7 +155,10 @@ class _MyPage_StoreState extends State<MyPage_Store> {
   //Functions
   storeS() async {
     List listTest = [];
-    listTest = await store.storeSelect('test');
+    final pref = await SharedPreferences.getInstance();
+    String? userid = pref.getString('uId');
+    String? utype = pref.getString('uIdType');
+    listTest = await store.storeSelect(userid!);
     setState(() {
       storetitle = listTest;
     });

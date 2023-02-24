@@ -174,6 +174,7 @@ class _LoginState extends State<Login> {
 
     if (!mounted) return;
     if (name.isNotEmpty) {
+      _saveId(idController.text.trim(), name, 'common');
       _loginsuccessdialog(name, idController.text.trim());
     } else {
       _loginFailDialog();
@@ -193,6 +194,7 @@ class _LoginState extends State<Login> {
       if (!mounted) return;
       if (name.isNotEmpty) {
         _loginsuccessdialog(name, id);
+        _saveId(id, name, 'naver');
       } else {
         Navigator.push(
           context,
@@ -209,7 +211,7 @@ class _LoginState extends State<Login> {
   //Desc: 로그인 성공 다이얼로그
   //Date: 2023-02-22
   _loginsuccessdialog(String name, String id) {
-    _saveId(id, name);
+    
     showDialog(
       context: context,
       builder: (context) {
@@ -272,10 +274,11 @@ class _LoginState extends State<Login> {
 
   //Desc: ID와 이름을 Shared Preferences에 저장
   //Date: 2023-02-22
-  _saveId(id, name) async {
+  _saveId(id, name, type) async {
     final pref = await SharedPreferences.getInstance();
     pref.setString('uId', id);
     pref.setString('uName', name);
+    pref.setString('uIdType', type);
   }
 
   //Desc: Shared Preferences 초기화
