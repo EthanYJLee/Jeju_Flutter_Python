@@ -118,11 +118,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  flutter_localizations:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
   flutter_naver_login:
     dependency: "direct main"
     description:
@@ -214,7 +209,7 @@ packages:
     source: hosted
     version: "4.0.2"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
@@ -261,14 +256,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
-  month_picker_dialog_2:
-    dependency: "direct main"
-    description:
-      name: month_picker_dialog_2
-      sha256: "709849ae49c2bddd3b064771357facdb257bb0801196c445e9357052ea695de5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.2"
   path:
     dependency: transitive
     description:
@@ -325,14 +312,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.27.7"
   shared_preferences:
     dependency: "direct main"
     description:
