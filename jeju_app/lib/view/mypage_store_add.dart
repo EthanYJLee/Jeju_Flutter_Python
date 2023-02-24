@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jeju_app/model/store.dart';
 
 class MyPage_Store_Add extends StatefulWidget {
   const MyPage_Store_Add({super.key});
@@ -27,6 +28,15 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
   late String check2;
   late String check3;
 
+  late TextEditingController Tel;
+
+  late TextEditingController Address;
+
+  // late bool nameCheck;
+  // late bool administrationCheck;
+  // late bool typeCheck;
+  // late bool telCheck;
+  // late bool addressCheck;
   @override
   void initState() {
     // TODO: implement initState
@@ -36,8 +46,8 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
     jejucityList = ['제주시', '서귀포시'];
     selectedItem = jejucityList[0];
 
-    jejuadministrationList1 = ['한림읍', '애월읍', '구좌읍', '조천읍'];
-    jejuadministrationList2 = ['제주시', '서귀포시', '몰라', '몰루'];
+    jejuadministrationList1 = ['선택하세요', 'test1', 'test2', 'test3'];
+    jejuadministrationList2 = ['선택하세요', 'test5', 'test6', 'test7'];
     selectedItem2 = jejuadministrationList1[0];
 
     jejucity = {
@@ -52,6 +62,16 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
     check1 = '';
     check2 = '';
     check3 = '';
+
+    Tel = TextEditingController();
+
+    Address = TextEditingController();
+
+    // nameCheck = false;
+    // addressCheck = false;
+    // typeCheck = false;
+    // telCheck = false;
+    // addressCheck = false;
   }
 
   @override
@@ -145,7 +165,9 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
                     onChanged: (dynamic value) {
                       setState(() {
                         selectedItem = value;
+                        selectedItem2 = jejucity[selectedItem][0];
                         check1 = selectedItem;
+                        print(check1);
                         // jejeCityCkeck();
                       });
                     },
@@ -231,6 +253,46 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
             const SizedBox(
               height: 20,
             ),
+            SizedBox(
+              height: 50,
+              width: 300,
+              child: TextField(
+                controller: Tel,
+                decoration: const InputDecoration(
+                  // border: OutlineInputBorder(),
+                  hintText: '전화번호를 입력하세요.',
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.amber),
+                  ),
+                  // focusedBorder: UnderlineInputBorder(
+                  //   borderSide: BorderSide(color: Colors.amber),
+                  // ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: 50,
+              width: 300,
+              child: TextField(
+                controller: Address,
+                decoration: const InputDecoration(
+                  // border: OutlineInputBorder(),
+                  hintText: '주소를 입력하세요.',
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.amber),
+                  ),
+                  // focusedBorder: UnderlineInputBorder(
+                  //   borderSide: BorderSide(color: Colors.amber),
+                  // ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -245,7 +307,9 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
                           if (Name.text.trim().isEmpty ||
                               check1.isEmpty ||
                               check2.isEmpty ||
-                              check3.isEmpty) {
+                              check3.isEmpty ||
+                              Tel.text.trim().isEmpty ||
+                              Address.text.trim().isEmpty) {
                             print('null');
 
                             // _shownullDialog(context);
@@ -296,17 +360,60 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('입력결과'),
-          content: const Text('입력이 완료 되었습니다.'),
+          content: const Text('가게를 등록 하시겠습니까?'),
           actions: [
             TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                '취소',
+              ),
+            ),
+            TextButton(
                 onPressed: () {
+                  _joinStore();
                   Navigator.of(context).pop();
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
+                  _joinDialog();
                 },
-                child: const Text('OK'))
+                child: const Text('등록'))
           ],
         );
       },
     );
   } //
+
+  _joinStore() async {
+    Store model = Store();
+    model.storeAdd(Name.text.trim(), check3, check2, Tel.text.trim(),
+        Address.text.trim(), 'test', 'common');
+  }
+
+  _joinDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            '축하합니다.',
+          ),
+          content: const Text(
+            '가게 등록이 완료되었습니다.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pop(context);
+              },
+              child: const Text(
+                '확인',
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }//end
