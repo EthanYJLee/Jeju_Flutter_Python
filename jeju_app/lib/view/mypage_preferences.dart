@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:jeju_app/view/login.dart';
 import 'package:jeju_app/view/mypage_perferences_profile.dart';
+
 
 class MyPage_Preferences extends StatefulWidget {
   const MyPage_Preferences({super.key});

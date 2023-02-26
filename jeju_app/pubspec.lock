@@ -57,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  date_time_format:
+    dependency: "direct main"
+    description:
+      name: date_time_format
+      sha256: dc47de14c95a7511e98ca429e1ebfd98c339badb496c9f2aaf56a70d07c7c0bf
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   equatable:
     dependency: transitive
     description:
@@ -110,6 +118,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_naver_login:
     dependency: "direct main"
     description:
@@ -200,6 +213,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.17.0"
   js:
     dependency: transitive
     description:
@@ -240,6 +261,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  month_picker_dialog_2:
+    dependency: "direct main"
+    description:
+      name: month_picker_dialog_2
+      sha256: "709849ae49c2bddd3b064771357facdb257bb0801196c445e9357052ea695de5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.2"
   path:
     dependency: transitive
     description:
@@ -296,6 +325,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.27.7"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -389,6 +426,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      sha256: f809b3921919bb79cee1ab39944a905126b6c68967d1cd301059ea5e422f49c9
+      url: "https://pub.dev"
+    source: hosted
+    version: "20.4.51"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "5f7dae40707df507325ee045d1a172aea9f449ac4244d7c52391dd97208eeef8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "20.4.51"
   term_glyph:
     dependency: transitive
     description:

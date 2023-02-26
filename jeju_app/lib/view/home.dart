@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:intl/intl.dart';
 import 'package:jeju_app/model/news_model.dart';
 import 'package:jeju_app/util/card_dialog.dart';
 import 'package:jeju_app/util/popup_card.dart';
 import 'package:jeju_app/util/popup_news.dart';
+import 'package:jeju_app/view/add_store.dart';
 import 'package:jeju_app/view/predict.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
+import 'package:month_picker_dialog_2/month_picker_dialog_2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -32,24 +35,29 @@ class _HomeState extends State<Home> {
   // Desc: Shared Preferences 받기
   // Date: 2023-02-22
   // youngjin
-  late String uId = '';
-  late String uName = '';
-  _initSharedPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      uId = prefs.getString('uId') ?? '';
-      uName = prefs.getString('uName') ?? '';
-    });
-  }
+  late String id = "";
+  late String name = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _initSharedPreferences();
     initNews().then((_) {
       setState(() {
         isLoading = false;
       });
+    });
+  }
+
+  // Desc: Shared Preferences
+  // Date: 2023-02-23
+  // youngjin
+  _initSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = (prefs.getString('uId'))!;
+      name = (prefs.getString('uName'))!;
     });
   }
 
@@ -109,7 +117,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // Desc: 내 매장 리스트
+  // Desc: 내 매장 목록 보여주는 리스트뷰
   // Date: 2023-02-21
   // youngjin
   Widget _storeList() {
@@ -121,16 +129,16 @@ class _HomeState extends State<Home> {
           width: 1,
         ),
         borderRadius: BorderRadius.circular(5),
-        color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.grey.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 1,
           ),
         ],
       ),
-      // 내 매장 리스트뷰
+      // ----------------------- 내 매장 리스트뷰 -----------------------
+      // 이 부분에서 매장 있는지 체크한 후 '내 매장' / '매장 등록하기'
       child: Row(
         children: [
           Expanded(
@@ -189,11 +197,16 @@ class _HomeState extends State<Home> {
       body: Center(
         child: Column(
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text(
-                '매장을 선택해주세요',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    '$name님의 매장',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -201,14 +214,28 @@ class _HomeState extends State<Home> {
               width: 350,
               child: _storeList(),
             ),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Text(
-                '오늘의 이슈',
-                style: TextStyle(fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Text(
+                    '오늘의 이슈',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ],
               ),
             ),
-            _viewNews()
+            _viewNews(),
+            SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => AddStore())));
+                },
+                child: const Text('매장추가(임시)'))
           ],
         ),
       ),

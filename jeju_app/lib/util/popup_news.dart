@@ -59,10 +59,15 @@ class PopupNews extends StatelessWidget {
                           onTap: () {
                             launchUrlString(originallink);
                           },
-                          child: const Text('원문 보기'),
+                          child: const Text(
+                            '기사 보기',
+                            style: TextStyle(
+                              color: Color.fromARGB(229, 225, 127, 7),
+                            ),
+                          ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         ElevatedButton(
                             onPressed: () {
