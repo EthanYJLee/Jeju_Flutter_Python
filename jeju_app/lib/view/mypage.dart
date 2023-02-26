@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jeju_app/model/store.dart';
 import 'package:jeju_app/view/mypage_preferences.dart';
 import 'package:jeju_app/view/mypage_store.dart';
+import 'package:jeju_app/view/sales_record_page.dart';
 
 class MyPage extends StatefulWidget {
   const MyPage({super.key});
@@ -101,12 +102,12 @@ class _MyPageState extends State<MyPage> {
                   children: [
                     TextButton(
                         onPressed: () {
-                          //     Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) =>  (),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SalesRecordPage(),
+                            ),
+                          );
                         },
                         child: const Text('매출 입력하기',
                             style:
