@@ -9,6 +9,7 @@ import 'package:jeju_app/model/news_model.dart';
 import 'package:jeju_app/util/card_dialog.dart';
 import 'package:jeju_app/util/popup_card.dart';
 import 'package:jeju_app/util/popup_news.dart';
+import 'package:jeju_app/view/add_store.dart';
 import 'package:jeju_app/view/predict.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
@@ -229,6 +230,12 @@ class _HomeState extends State<Home> {
             SizedBox(
               height: 10,
             ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => AddStore())));
+                },
+                child: const Text('매장추가(임시)'))
           ],
         ),
       ),
