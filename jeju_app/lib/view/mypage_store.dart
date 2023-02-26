@@ -4,6 +4,7 @@ import 'package:jeju_app/model/store.dart';
 
 import 'package:jeju_app/view/mypage_store_add.dart';
 import 'package:jeju_app/view/mypage_store_detail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyPage_Store extends StatefulWidget {
   const MyPage_Store({super.key});
@@ -37,6 +38,9 @@ class _MyPage_StoreState extends State<MyPage_Store> {
 
   late int storeInt;
 
+  late String id = "";
+  late String name = "";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -68,6 +72,18 @@ class _MyPage_StoreState extends State<MyPage_Store> {
 
     correctionAddress = TextEditingController();
     storeInt = 0;
+    _initSharedPreferences();
+  }
+
+  // Desc: Shared Preferences
+  // Date: 2023-02-26
+  // youngjin
+  _initSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = (prefs.getString('uId'))!;
+      name = (prefs.getString('uName'))!;
+    });
   }
 
   @override
@@ -154,7 +170,7 @@ class _MyPage_StoreState extends State<MyPage_Store> {
   //Functions
   storeS() async {
     List listTest = [];
-    listTest = await store.storeSelect('test');
+    listTest = await store.storeSelect(id);
     setState(() {
       storetitle = listTest;
     });
