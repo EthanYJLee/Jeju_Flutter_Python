@@ -64,8 +64,6 @@ class _HomeState extends State<Home> {
     stores = await _store.storeSelect(id);
     setState(() {
       print(stores);
-      print(stores[0]);
-      print(stores[1]);
     });
   }
 
@@ -172,7 +170,8 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) => MyPage_Store_Add())));
+                                builder: ((context) =>
+                                    const MyPage_Store_Add())));
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -230,7 +229,7 @@ class _HomeState extends State<Home> {
                               children: [
                                 Text(
                                   stores[index]['sName'],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 17, color: Colors.black),
                                 ),
                               ],
@@ -257,13 +256,14 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     '$name님의 매장',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ],
               ),
@@ -286,15 +286,17 @@ class _HomeState extends State<Home> {
               ),
             ),
             _viewNews(),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => AddStore())));
-                },
-                child: const Text('매장추가(임시)'))
+            // ElevatedButton(
+            //     onPressed: () {
+            //       Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: ((context) => const AddStore())));
+            //     },
+            //     child: const Text('매장추가(임시)'))
           ],
         ),
       ),
@@ -303,8 +305,6 @@ class _HomeState extends State<Home> {
 }
 
 // --------------------------------------------------------
-
-// ----------------------Class----------------------
 
 // ----------------------Functions----------------------
 Future<List<NewsModel>> getNews() async {
