@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jeju_app/view/add_store.dart';
 import 'package:jeju_app/view/mypage_store_add.dart';
 
 class MyPage_Store extends StatefulWidget {
@@ -24,8 +25,20 @@ class _MyPage_StoreState extends State<MyPage_Store> {
                   ),
                 );
               },
-              icon: const Icon(Icons.add))
+              icon: const Icon(Icons.add)),
         ],
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => AddStore())));
+                },
+                child: const Text('매장추가'))
+          ],
+        ),
       ),
     );
   }
