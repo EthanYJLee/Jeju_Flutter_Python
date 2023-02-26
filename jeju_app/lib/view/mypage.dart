@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jeju_app/model/store.dart';
 import 'package:jeju_app/view/mypage_preferences.dart';
 import 'package:jeju_app/view/mypage_store.dart';
 import 'package:jeju_app/view/sales_record_page.dart';
@@ -54,7 +55,7 @@ class _MyPageState extends State<MyPage> {
                           right: 9,
                           bottom:
                               MediaQuery.of(context).viewInsets.bottom + 20),
-                      child: const Text(
+                      child: Text(
                         "userId 님 환영합니다.",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
@@ -84,6 +85,7 @@ class _MyPageState extends State<MyPage> {
                   children: [
                     TextButton(
                         onPressed: () {
+                          // _store();
                           Navigator.push(
                             context,
                             MaterialPageRoute(

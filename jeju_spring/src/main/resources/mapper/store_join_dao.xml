@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD 3.0//EN"
+						"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> <!-- mysql mapper 사용 -->
+<mapper namespace="com.jeju.base.dao.UserStoreDao">
+
+<select id="UserStoreSelect" resultType="com.jeju.base.dto.UserStoreDto">
+select sId, sName, sCategory, sDong, sTel, sAddress from store where user_uId=#{uId} and sDDate is null;
+</select>
+
+<insert id="UserStoreAdd">
+insert into store (sName, sCategory, sDong, sTel, sAddress, user_uId, user_uIdType) values (#{sName},#{sCategory},#{sDong},#{sTel},#{sAddress},#{user_uId},#{user_uIdType});
+</insert>
+
+<update id="UserStoreDelete">
+update store set sDDate = now() where sId = #{sId};
+</update>
+
+<update id="UserStoreUpdate">
+update store set sName = #{sName}, sCategory = #{sCategory}, sDong = #{sDong}, sTel = #{sTel}, sAddress = #{sAddress} where sId = #{sId} and sDDate is null;
+</update>
+
+<select id="UserDateSelect" resultType="com.jeju.base.dto.UserDateDto">
+select uPassword, uName, uNickname, uEmail, uSex, uBirth from user where uId = #{uId};
+</select>
+
+</mapper>
