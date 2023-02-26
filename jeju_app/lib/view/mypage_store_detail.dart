@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jeju_app/model/message.dart';
 import 'package:jeju_app/model/store.dart';
+import 'package:jeju_app/view/mypage_store.dart';
 
 class MyPage_Store_Detail extends StatefulWidget {
   const MyPage_Store_Detail({super.key});
@@ -323,7 +324,13 @@ class _MyPage_Store_DetailState extends State<MyPage_Store_Detail> {
                 //--
                 _updateStore();
                 Navigator.of(context).pop();
-                Navigator.pop(context);
+                // Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyPage_Store(),
+                  ),
+                );
               },
               child: const Text(
                 '확인',
@@ -362,7 +369,7 @@ class _MyPage_Store_DetailState extends State<MyPage_Store_Detail> {
                   setState(() {
                     _joinStoreDelete();
                     Navigator.of(context).pop();
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
                   });
                 },
                 child: const Text('예'))
