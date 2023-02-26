@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jeju_app/model/store.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyPage_Store_Add extends StatefulWidget {
   const MyPage_Store_Add({super.key});
@@ -31,6 +32,9 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
   late TextEditingController Tel;
 
   late TextEditingController Address;
+
+  late String id = "";
+  late String name = "";
 
   // late bool nameCheck;
   // late bool administrationCheck;
@@ -72,6 +76,18 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
     // typeCheck = false;
     // telCheck = false;
     // addressCheck = false;
+    _initSharedPreferences();
+  }
+
+  // Desc: Shared Preferences
+  // Date: 2023-02-23
+  // youngjin
+  _initSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = (prefs.getString('uId'))!;
+      name = (prefs.getString('uName'))!;
+    });
   }
 
   @override
@@ -387,7 +403,7 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
   _joinStore() async {
     Store model = Store();
     model.storeAdd(Name.text.trim(), check3, check2, Tel.text.trim(),
-        Address.text.trim(), 'test', 'common');
+        Address.text.trim(), id, 'common');
   }
 
   _joinDialog() {
