@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:intl/intl.dart';
 import 'package:jeju_app/model/news_model.dart';
 import 'package:jeju_app/util/card_dialog.dart';
 import 'package:jeju_app/util/popup_card.dart';
@@ -11,6 +12,7 @@ import 'package:jeju_app/util/popup_news.dart';
 import 'package:jeju_app/view/predict.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
+import 'package:month_picker_dialog_2/month_picker_dialog_2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -134,7 +136,8 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      // 내 매장 리스트뷰
+      // ----------------------- 내 매장 리스트뷰 -----------------------
+      // 이 부분에서 매장 있는지 체크한 후 '내 매장' / '매장 등록하기'
       child: Row(
         children: [
           Expanded(
@@ -222,7 +225,10 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            _viewNews()
+            _viewNews(),
+            SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),
