@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _PredictState extends State<Predict> {
   late TextEditingController dongController = TextEditingController();
   late TextEditingController categoryController = TextEditingController();
 
-  String result = '';
+  late String result = '';
   late String dong = '';
   late String category = '';
   late int local = 7000;
@@ -262,8 +263,9 @@ class _PredictState extends State<Predict> {
   // --------------------------build------------------------------
 
   DateTime? selectedDate;
-  double _currentSliderPrimaryValue = 50000;
-  double _currentSliderSecondaryValue = 50000;
+  // String month = "";
+  double _currentSliderPrimaryValue = 66000;
+  double _currentSliderSecondaryValue = 31000;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -284,8 +286,8 @@ class _PredictState extends State<Predict> {
                 const Text('국내 관광객'),
                 Slider(
                   value: _currentSliderPrimaryValue,
-                  min: 0,
-                  max: 100000,
+                  min: 2500,
+                  max: 130000,
                   divisions: 100,
                   label: _currentSliderPrimaryValue.round().toString(),
                   onChanged: (double value) {
@@ -298,8 +300,8 @@ class _PredictState extends State<Predict> {
                 const Text('중국인 유동인구'),
                 Slider(
                   value: _currentSliderSecondaryValue,
-                  min: 0,
-                  max: 100000,
+                  min: 2500,
+                  max: 60000,
                   divisions: 100,
                   label: _currentSliderSecondaryValue.round().toString(),
                   onChanged: (double value) {
@@ -338,6 +340,8 @@ class _PredictState extends State<Predict> {
                     category = categoryController.text;
                     strLocal = local.toString();
                     strChinese = chinese.toString();
+                    // month =
+                    //     (DateFormat().add_M().format(selectedDate!)).toString();
                     getJSONData();
                   },
                   child: const Text('예측'),

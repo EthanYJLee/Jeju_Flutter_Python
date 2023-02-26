@@ -17,9 +17,12 @@ def jeju():
     category = request.args.get("category")
     local = request.args.get("local")
     chinese = request.args.get("chinese")
+    # intMonth = int(request.args.get("month"))
 
     # 국내 관광객, 중국인 유동인구 DataFrame
     visits = pd.DataFrame(np.array([[local, chinese]]))
+
+    # month = pd.DataFrame(np.array([[intMonth]]))
 
     # 행정동 One-Hot Encoding
     dong_list = ['건입동', '구좌읍', '남원읍', '노형동', '대륜동', '대정읍', '대천동', '도두동', '동홍동', '봉개동', '삼도이동',
@@ -39,12 +42,13 @@ def jeju():
     category_onehot = pd.DataFrame(category_onehot)
 
     # Feature DataFrame 생성 (병합)
+    # feature = pd.concat([visits, month, dong_onehot, category_onehot], axis=1)
     feature = pd.concat([visits, dong_onehot, category_onehot], axis=1)
     
     print(feature)
 
     rf = joblib.load("./jeju_ml/rf_jeju.h5")
-    pre = rf.predict(feature)
+    pre = rf.predict(feature.to_numpy())
 
     return jsonify({'result': str(pre[0])})
     
