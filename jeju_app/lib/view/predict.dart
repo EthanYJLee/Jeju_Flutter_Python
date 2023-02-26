@@ -5,9 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:jeju_app/model/message.dart';
+import 'package:jeju_app/util/popup_card.dart';
+import 'package:jeju_app/view/add_store.dart';
 import 'package:month_picker_dialog_2/month_picker_dialog_2.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Desc: 내 정보 가져오기 / 직접 입력 선택하는 Segmented Button
 // Date: 2023-02-21
@@ -15,7 +19,7 @@ import 'package:http/http.dart' as http;
 enum WhichInfo { myStore, byMyself }
 
 class Predict extends StatefulWidget {
-  const Predict({super.key});
+  Predict({super.key});
 
   @override
   State<Predict> createState() => _PredictState();
@@ -25,6 +29,7 @@ class _PredictState extends State<Predict> {
   // 예측을 위한 Feature 변수
   late TextEditingController localController = TextEditingController();
   late TextEditingController chineseController = TextEditingController();
+  late TextEditingController nameController = TextEditingController();
   late TextEditingController dongController = TextEditingController();
   late TextEditingController categoryController = TextEditingController();
 
@@ -36,8 +41,38 @@ class _PredictState extends State<Predict> {
   late String strLocal = "";
   late String strChinese = "";
 
+  // Desc: 앞에서 받아온 내 매장 정보
+  // Date: 2023-02-26
+  // youngjin
+  late String sName = "";
+  late String sDong = "";
+  late String sCategory = "";
+
   // 정보 가져오기 / 직접 입력 버튼 변수
   WhichInfo choice = WhichInfo.myStore;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _initSharedPreferences();
+    setState(() {
+      dong = sDong;
+      category = sCategory;
+    });
+  }
+
+  _initSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sName = prefs.getString('sName')!;
+      sDong = prefs.getString('sDong')!;
+      sCategory = prefs.getString('sCategory')!;
+      nameController.text = sName;
+      dongController.text = sDong;
+      categoryController.text = sCategory;
+    });
+  }
 
   // 행정동 리스트
   late List<String> dongList = [
@@ -143,6 +178,8 @@ class _PredictState extends State<Predict> {
               choice = newChoice.first;
               dongController = TextEditingController();
               categoryController = TextEditingController();
+              dongController.text = sDong;
+              categoryController.text = sCategory;
             });
           },
         ),
@@ -165,11 +202,9 @@ class _PredictState extends State<Predict> {
       padding: const EdgeInsets.only(left: 100, right: 100),
       child: Column(
         children: [
-          const TextField(
+          TextField(
+            controller: nameController,
             readOnly: true,
-            decoration: InputDecoration(
-              labelText: '매장명',
-            ),
           ),
           const SizedBox(
             height: 10,
@@ -177,19 +212,13 @@ class _PredictState extends State<Predict> {
           TextField(
             controller: dongController,
             readOnly: true,
-            decoration: const InputDecoration(
-              labelText: '행정동',
-            ),
           ),
           const SizedBox(
             height: 10,
           ),
           TextField(
-            controller: dongController,
+            controller: categoryController,
             readOnly: true,
-            decoration: const InputDecoration(
-              labelText: '카테고리',
-            ),
           ),
         ],
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jeju_app/model/store.dart';
+import 'package:jeju_app/view/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyPage_Store_Add extends StatefulWidget {
   const MyPage_Store_Add({super.key});
@@ -32,6 +34,9 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
 
   late TextEditingController Address;
 
+  late String id = "";
+  late String name = "";
+
   // late bool nameCheck;
   // late bool administrationCheck;
   // late bool typeCheck;
@@ -46,16 +51,104 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
     jejucityList = ['제주시', '서귀포시'];
     selectedItem = jejucityList[0];
 
-    jejuadministrationList1 = ['선택하세요', '제주시1', '제주시2', '제주시3'];
-    jejuadministrationList2 = ['선택하세요', '서귀포시1', '서귀포시2', '서귀포시3'];
-    selectedItem2 = jejuadministrationList1[0];
+    jejuadministrationList1 = [
+      '건입동',
+      '구좌읍',
+      '남원읍',
+      '노형동',
+      '대륜동',
+      '대정읍',
+      '대천동',
+      '도두동',
+      '동홍동',
+      '봉개동',
+      '삼도이동',
+      '삼도일동',
+      '삼양동',
+      '서홍동',
+      '성산읍',
+      '송산동',
+      '아라동',
+      '안덕면',
+      '애월읍',
+      '연동',
+      '영천동',
+      '예래동',
+      '오라동',
+      '외도동',
+      '용담이동',
+      '용담일동',
+      '우도면',
+      '이도이동',
+      '이도일동',
+      '이호동',
+      '일도이동',
+      '일도일동',
+      '정방동',
+      '조천읍',
+      '중문동',
+      '중앙동',
+      '천지동',
+      '추자면',
+      '표선면',
+      '한경면',
+      '한림읍',
+      '화북동',
+      '효돈동'
+    ];
+    jejuadministrationList2 = [
+      '건입동',
+      '구좌읍',
+      '남원읍',
+      '노형동',
+      '대륜동',
+      '대정읍',
+      '대천동',
+      '도두동',
+      '동홍동',
+      '봉개동',
+      '삼도이동',
+      '삼도일동',
+      '삼양동',
+      '서홍동',
+      '성산읍',
+      '송산동',
+      '아라동',
+      '안덕면',
+      '애월읍',
+      '연동',
+      '영천동',
+      '예래동',
+      '오라동',
+      '외도동',
+      '용담이동',
+      '용담일동',
+      '우도면',
+      '이도이동',
+      '이도일동',
+      '이호동',
+      '일도이동',
+      '일도일동',
+      '정방동',
+      '조천읍',
+      '중문동',
+      '중앙동',
+      '천지동',
+      '추자면',
+      '표선면',
+      '한경면',
+      '한림읍',
+      '화북동',
+      '효돈동'
+    ];
+    selectedItem2 = jejuadministrationList2[0];
 
     jejucity = {
       '제주시': jejuadministrationList1,
       '서귀포시': jejuadministrationList2,
     };
 
-    Sectors = ['업종1', '업종2', '업종3'];
+    Sectors = ['한식', '일식', '중식', '양식', '패스트푸드', '음료', '외국음식'];
     selectedItem3 = Sectors[0];
 
     storename = '';
@@ -72,6 +165,18 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
     // typeCheck = false;
     // telCheck = false;
     // addressCheck = false;
+    _initSharedPreferences();
+  }
+
+  // Desc: Shared Preferences
+  // Date: 2023-02-26
+  // youngjin
+  _initSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = (prefs.getString('uId'))!;
+      name = (prefs.getString('uName'))!;
+    });
   }
 
   @override
@@ -387,7 +492,7 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
   _joinStore() async {
     Store model = Store();
     model.storeAdd(Name.text.trim(), check3, check2, Tel.text.trim(),
-        Address.text.trim(), 'test', 'common');
+        Address.text.trim(), id, 'common');
   }
 
   _joinDialog() {
@@ -406,6 +511,8 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.pop(context);
+                // Navigator.push(
+                //     context, MaterialPageRoute(builder: ((context) => Home())));
               },
               child: const Text(
                 '확인',
