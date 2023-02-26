@@ -56,8 +56,10 @@ class _PredictState extends State<Predict> {
     // TODO: implement initState
     super.initState();
     _initSharedPreferences();
-    dong = sDong;
-    category = sCategory;
+    setState(() {
+      dong = sDong;
+      category = sCategory;
+    });
   }
 
   _initSharedPreferences() async {
@@ -66,6 +68,9 @@ class _PredictState extends State<Predict> {
       sName = prefs.getString('sName')!;
       sDong = prefs.getString('sDong')!;
       sCategory = prefs.getString('sCategory')!;
+      nameController.text = sName;
+      dongController.text = sDong;
+      categoryController.text = sCategory;
     });
   }
 
@@ -173,6 +178,8 @@ class _PredictState extends State<Predict> {
               choice = newChoice.first;
               dongController = TextEditingController();
               categoryController = TextEditingController();
+              dongController.text = sDong;
+              categoryController.text = sCategory;
             });
           },
         ),
@@ -196,10 +203,8 @@ class _PredictState extends State<Predict> {
       child: Column(
         children: [
           TextField(
+            controller: nameController,
             readOnly: true,
-            decoration: InputDecoration(
-              labelText: sName,
-            ),
           ),
           const SizedBox(
             height: 10,
@@ -207,9 +212,6 @@ class _PredictState extends State<Predict> {
           TextField(
             controller: dongController,
             readOnly: true,
-            decoration: InputDecoration(
-              labelText: sDong,
-            ),
           ),
           const SizedBox(
             height: 10,
@@ -217,9 +219,6 @@ class _PredictState extends State<Predict> {
           TextField(
             controller: categoryController,
             readOnly: true,
-            decoration: InputDecoration(
-              labelText: sCategory,
-            ),
           ),
         ],
       ),
