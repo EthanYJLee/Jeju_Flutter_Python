@@ -2,14 +2,31 @@
 // Date: 2023-02-21
 // youngjin
 import 'package:flutter/material.dart';
+import 'package:jeju_app/model/record_message.dart';
+import 'package:jeju_app/view/add_store.dart';
 import 'package:jeju_app/view/predict.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const String sName = '';
+const String sTel = '';
+const String sAddress = '';
 
 class PopupCard extends StatelessWidget {
-  const PopupCard({Key? key, required this.sName}) : super(key: key);
+  const PopupCard(
+      {Key? key,
+      required this.sName,
+      required this.sTel,
+      required this.sAddress,
+      required this.sDong,
+      required this.sCategory})
+      : super(key: key);
 
   final String sName;
+  final String sTel;
+  final String sAddress;
+  final String sDong;
+  final String sCategory;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -34,17 +51,17 @@ class PopupCard extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text('매장명'),
+                        Text('매장명: ${sName}'),
                         const Divider(
                           color: Colors.black,
                           thickness: 0.2,
                         ),
-                        const Text('주소'),
+                        Text('전화번호: ${sTel}'),
                         const Divider(
                           color: Colors.black,
                           thickness: 0.2,
                         ),
-                        const Text('전화번호'),
+                        Text('주소: ${sAddress}'),
                         const Divider(
                           color: Colors.black,
                           thickness: 0.2,
@@ -57,8 +74,7 @@ class PopupCard extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: ((context) =>
-                                            const Predict())));
+                                        builder: ((context) => Predict())));
                               },
                               child: const Text('매출예측'),
                             ),

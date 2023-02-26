@@ -13,7 +13,7 @@ class Store {
 
     List storeResult = dataConvertedJson['results'];
 
-    // print(storeResult);
+    print(storeResult);
     return storeResult;
   }
 

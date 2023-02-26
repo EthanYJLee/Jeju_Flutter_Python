@@ -80,7 +80,7 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
   }
 
   // Desc: Shared Preferences
-  // Date: 2023-02-23
+  // Date: 2023-02-26
   // youngjin
   _initSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
