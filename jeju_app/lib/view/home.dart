@@ -4,13 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:intl/intl.dart';
 import 'package:jeju_app/model/news_model.dart';
+import 'package:jeju_app/model/store.dart';
 import 'package:jeju_app/util/card_dialog.dart';
 import 'package:jeju_app/util/popup_card.dart';
 import 'package:jeju_app/util/popup_news.dart';
+import 'package:jeju_app/view/add_store.dart';
+import 'package:jeju_app/view/mypage_store_add.dart';
 import 'package:jeju_app/view/predict.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
+import 'package:month_picker_dialog_2/month_picker_dialog_2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -35,15 +40,30 @@ class _HomeState extends State<Home> {
   late String id = "";
   late String name = "";
 
+  late List stores = [];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _initSharedPreferences();
+
     initNews().then((_) {
       setState(() {
         isLoading = false;
+        _getMyStore();
       });
+    });
+  }
+
+  // Desc: 내 매장 정보 가져오기
+  // Date: 2023-02-26
+  // youngjin
+  _getMyStore() async {
+    Store _store = Store();
+    stores = await _store.storeSelect(id);
+    setState(() {
+      print(stores);
     });
   }
 
@@ -134,48 +154,90 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      // 내 매장 리스트뷰
+      // ----------------------- 내 매장 리스트뷰 -----------------------
+      // 이 부분에서 매장 있는지 체크한 후 '내 매장' / '매장 등록하기'
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 100,
-                    width: 100,
-                    child: Card(
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      elevation: 2,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(CardDialog(builder: (context) {
-                            return const PopupCard(sName: '1');
-                          }));
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              '매장명',
-                              style:
-                                  TextStyle(fontSize: 17, color: Colors.black),
-                            ),
-                            Text(
-                              '주소',
-                              style:
-                                  TextStyle(fontSize: 17, color: Colors.black),
-                            ),
-                          ],
-                        ),
+            child: (stores.isEmpty)
+                ? Card(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    elevation: 2,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) =>
+                                    const MyPage_Store_Add())));
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.add_location_alt,
+                            color: Colors.amberAccent,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text('매장 등록하기'),
+                        ],
                       ),
                     ),
-                  );
-                }),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: stores.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: 100,
+                        width: 100,
+                        child: Card(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          elevation: 2,
+                          child: InkWell(
+                            onTap: () async {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              setState(() {
+                                prefs.setString(
+                                    'sName', stores[index]['sName']);
+                                prefs.setString(
+                                    'sDong', stores[index]['sDong']);
+                                prefs.setString(
+                                    'sCategory', stores[index]['sCategory']);
+                              });
+
+                              Navigator.of(context)
+                                  .push(CardDialog(builder: (context) {
+                                return PopupCard(
+                                    sName: stores[index]['sName'],
+                                    sTel: stores[index]['sTel'],
+                                    sAddress: stores[index]['sAddress'],
+                                    sDong: stores[index]['sDong'],
+                                    sCategory: stores[index]['sCategory']);
+                              }));
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  stores[index]['sName'],
+                                  style: const TextStyle(
+                                      fontSize: 17, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
           ),
         ],
       ),
@@ -194,13 +256,14 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     '$name님의 매장',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ],
               ),
@@ -222,7 +285,18 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            _viewNews()
+            _viewNews(),
+            const SizedBox(
+              height: 10,
+            ),
+            // ElevatedButton(
+            //     onPressed: () {
+            //       Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: ((context) => const AddStore())));
+            //     },
+            //     child: const Text('매장추가(임시)'))
           ],
         ),
       ),
@@ -231,8 +305,6 @@ class _HomeState extends State<Home> {
 }
 
 // --------------------------------------------------------
-
-// ----------------------Class----------------------
 
 // ----------------------Functions----------------------
 Future<List<NewsModel>> getNews() async {

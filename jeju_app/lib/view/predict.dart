@@ -1,10 +1,17 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:jeju_app/view/result.dart';
+import 'package:jeju_app/model/message.dart';
+import 'package:jeju_app/util/popup_card.dart';
+import 'package:jeju_app/view/add_store.dart';
 import 'package:month_picker_dialog_2/month_picker_dialog_2.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Desc: 내 정보 가져오기 / 직접 입력 선택하는 Segmented Button
 // Date: 2023-02-21
@@ -12,15 +19,60 @@ import 'package:intl/intl.dart';
 enum WhichInfo { myStore, byMyself }
 
 class Predict extends StatefulWidget {
-  const Predict({super.key});
+  Predict({super.key});
 
   @override
   State<Predict> createState() => _PredictState();
 }
 
 class _PredictState extends State<Predict> {
+  // 예측을 위한 Feature 변수
+  late TextEditingController localController = TextEditingController();
+  late TextEditingController chineseController = TextEditingController();
+  late TextEditingController nameController = TextEditingController();
+  late TextEditingController dongController = TextEditingController();
+  late TextEditingController categoryController = TextEditingController();
+
+  late String result = '';
+  late String dong = '';
+  late String category = '';
+  late int local = 7000;
+  late int chinese = 7000;
+  late String strLocal = "";
+  late String strChinese = "";
+
+  // Desc: 앞에서 받아온 내 매장 정보
+  // Date: 2023-02-26
+  // youngjin
+  late String sName = "";
+  late String sDong = "";
+  late String sCategory = "";
+
   // 정보 가져오기 / 직접 입력 버튼 변수
   WhichInfo choice = WhichInfo.myStore;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _initSharedPreferences();
+    setState(() {
+      dong = sDong;
+      category = sCategory;
+    });
+  }
+
+  _initSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sName = prefs.getString('sName')!;
+      sDong = prefs.getString('sDong')!;
+      sCategory = prefs.getString('sCategory')!;
+      nameController.text = sName;
+      dongController.text = sDong;
+      categoryController.text = sCategory;
+    });
+  }
 
   // 행정동 리스트
   late List<String> dongList = [
@@ -79,8 +131,6 @@ class _PredictState extends State<Predict> {
     '음료',
     '외국음식'
   ];
-  TextEditingController dongController = TextEditingController();
-  TextEditingController categoryController = TextEditingController();
 
   // Desc: 예측 전에 내 가게 정보 가져오기 / 직접 입력하기 선택 버튼
   // 가져오기 선택 시 자동으로 가게 정보 불러와서 출력
@@ -128,6 +178,8 @@ class _PredictState extends State<Predict> {
               choice = newChoice.first;
               dongController = TextEditingController();
               categoryController = TextEditingController();
+              dongController.text = sDong;
+              categoryController.text = sCategory;
             });
           },
         ),
@@ -147,32 +199,26 @@ class _PredictState extends State<Predict> {
   Widget _myInfoArea() {
     return Container(
       height: 250,
-      padding: EdgeInsets.only(left: 100, right: 100),
+      padding: const EdgeInsets.only(left: 100, right: 100),
       child: Column(
-        children: const [
+        children: [
           TextField(
+            controller: nameController,
             readOnly: true,
-            decoration: InputDecoration(
-              labelText: '매장명',
-            ),
           ),
-          SizedBox(
-            height: 20,
+          const SizedBox(
+            height: 10,
           ),
           TextField(
+            controller: dongController,
             readOnly: true,
-            decoration: InputDecoration(
-              labelText: '행정동',
-            ),
           ),
-          SizedBox(
-            height: 20,
+          const SizedBox(
+            height: 10,
           ),
           TextField(
+            controller: categoryController,
             readOnly: true,
-            decoration: InputDecoration(
-              labelText: '카테고리',
-            ),
           ),
         ],
       ),
@@ -200,8 +246,10 @@ class _PredictState extends State<Predict> {
     return Container(
       height: 250,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(
+            height: 30,
+          ),
           Expanded(
             child: DropdownMenu(
               menuHeight: 200,
@@ -210,6 +258,10 @@ class _PredictState extends State<Predict> {
               controller: dongController,
               label: const Text('행정동'),
               dropdownMenuEntries: dongEntries,
+              inputDecorationTheme: const InputDecorationTheme(filled: true),
+              onSelected: (value) {
+                dong = dongController.text;
+              },
             ),
           ),
           const SizedBox(
@@ -223,19 +275,26 @@ class _PredictState extends State<Predict> {
               controller: categoryController,
               label: const Text('카테고리'),
               dropdownMenuEntries: categoryEntries,
+              inputDecorationTheme: const InputDecorationTheme(filled: true),
+              onSelected: (value) {
+                category = categoryController.text;
+              },
             ),
           ),
           const SizedBox(
-            height: 100,
-          )
+            height: 80,
+          ),
         ],
       ),
     );
   }
 
-  // --------------------------------------------------------
+  // --------------------------build------------------------------
 
   DateTime? selectedDate;
+  // String month = "";
+  double _currentSliderPrimaryValue = 66000;
+  double _currentSliderSecondaryValue = 31000;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -250,21 +309,49 @@ class _PredictState extends State<Predict> {
         body: SingleChildScrollView(
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 _getSetInfo(),
+                const Text('국내 관광객'),
+                Slider(
+                  value: _currentSliderPrimaryValue,
+                  min: 2500,
+                  max: 130000,
+                  divisions: 100,
+                  label: _currentSliderPrimaryValue.round().toString(),
+                  onChanged: (double value) {
+                    setState(() {
+                      _currentSliderPrimaryValue = value;
+                      local = value.round().toInt();
+                    });
+                  },
+                ),
+                const Text('중국인 유동인구'),
+                Slider(
+                  value: _currentSliderSecondaryValue,
+                  min: 2500,
+                  max: 60000,
+                  divisions: 100,
+                  label: _currentSliderSecondaryValue.round().toString(),
+                  onChanged: (double value) {
+                    setState(() {
+                      _currentSliderSecondaryValue = value;
+                      chinese = value.round().toInt();
+                    });
+                  },
+                ),
                 const SizedBox(
                   height: 20,
                 ),
                 if (selectedDate == null)
                   const Text(
-                    '예측하실 년/월을 선택해주세요',
-                    style: TextStyle(fontSize: 20),
+                    '년/월을 선택해주세요',
+                    style: TextStyle(fontSize: 14),
                   )
                 else
                   Text(
                     "${DateFormat().add_y().format(selectedDate!)}년 ${DateFormat().add_M().format(selectedDate!)}월",
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   ),
                 const SizedBox(
                   height: 10,
@@ -276,13 +363,15 @@ class _PredictState extends State<Predict> {
                   ),
                   onPressed: () => _onPressed(),
                 ),
-                const SizedBox(
-                  height: 80,
-                ),
                 FilledButton.tonal(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) => Result())));
+                    dong = dongController.text;
+                    category = categoryController.text;
+                    strLocal = local.toString();
+                    strChinese = chinese.toString();
+                    // month =
+                    //     (DateFormat().add_M().format(selectedDate!)).toString();
+                    getJSONData();
                   },
                   child: const Text('예측'),
                 )
@@ -294,6 +383,43 @@ class _PredictState extends State<Predict> {
     );
   }
 
+  // -----------------------Functions-----------------------
+  getJSONData() async {
+    var url = Uri.parse(
+        'http://localhost:5000/jeju?dong=$dong&category=$category&local=$strLocal&chinese=$chinese');
+    var response = await http.get(url);
+
+    setState(() {
+      var dataConvertedJSON = json.decode(utf8.decode(response.bodyBytes));
+      result = dataConvertedJSON['result'];
+      _showDialog(context, result);
+    });
+  }
+
+  _showDialog(BuildContext context, String result) {
+    showDialog(
+        context: context,
+        builder: ((BuildContext context) {
+          return AlertDialog(
+            title: const Text('예측 결과'),
+            content: Text(
+              '선택하신 달의\n$dong $category업종\n매출 예측 결과는\n$result 입니다.',
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK')),
+            ],
+          );
+        }));
+  }
+
+  // Desc: 년월 선택하는 picker
+  // Date: 2023-02-24
+  // youngjin
   Future<void> _onPressed() {
     return showMonthPicker(
       context: context,
@@ -310,7 +436,7 @@ class _PredictState extends State<Predict> {
         '선택',
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
-      cancelText: Text('취소'),
+      cancelText: const Text('취소'),
       yearFirst: true,
       roundedCornersRadius: 20,
     ).then((date) {
