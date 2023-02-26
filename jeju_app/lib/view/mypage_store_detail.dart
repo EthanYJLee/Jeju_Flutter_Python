@@ -369,6 +369,7 @@ class _MyPage_Store_DetailState extends State<MyPage_Store_Detail> {
                   setState(() {
                     _joinStoreDelete();
                     Navigator.of(context).pop();
+                    print('test');
                     // Navigator.pop(context);
                   });
                 },
