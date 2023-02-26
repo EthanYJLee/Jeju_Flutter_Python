@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD 3.0//EN"
+						"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+						
+<mapper namespace="com.jeju.base.dao.SearchIdPwDao">
+
+	<!-- Id 찾기(2023-02-22) -->
+	<select id='SearchId' resultType="int">
+		select count(*) from `user` where uName=#{uName} and uEmail=#{uEmail} and uDdate is null;
+	</select>
+
+	<!-- Id 가져오기(2023-02-22) -->
+	<select id='FindId' resultType="String">
+		select uid from `user` where uName=#{uName} and uEmail=#{uEmail} and uDdate is null;
+	</select>
+
+    <!-- Pw 찾기(2023-02-23) -->
+    <select id='SearchPw' resultType="int">
+		select count(*) from `user` where uName=#{uName} and uid=#{uid} and uEmail=#{uEmail} and uDdate is null;
+	</select>
+	
+	<!-- Pw 가져오기(2023-02-23) -->
+	<select id='FindPw' resultType="String">
+		select uPassword from `user` where uName=#{uName} and uid=#{uid} and uEmail=#{uEmail} and uDdate is null;
+	</select>
+	
+	<!-- Pw 수정하기(2023-02-23) -->
+	<update id='UpdatePw'>
+		update `user` set uPassword=#{uPassword} where uid=#{uid};
+	</update>
+
+</mapper>

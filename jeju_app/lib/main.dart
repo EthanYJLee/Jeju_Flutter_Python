@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jeju_app/view/login.dart';
+import 'package:jeju_app/view/search_id.dart';
+import 'package:jeju_app/view/search_pw.dart';
 
 void main() {
   runApp(const MyApp());
