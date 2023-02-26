@@ -2,6 +2,7 @@ package com.jeju.base.dao;
 
 import java.util.List;
 
+import com.jeju.base.dto.UserDateDto;
 import com.jeju.base.dto.UserStoreDto;
 
 public interface UserStoreDao {
@@ -10,5 +11,5 @@ public interface UserStoreDao {
 	public void UserStoreDelete(int sId);
 	public void UserStoreUpdate(String sName, String sCategory,String sDong,String sTel,String sAddress, int sId);
 	
-	public List<UserStoreDto> UserDateSelect(String uid) throws Exception;
+	public List<UserDateDto> UserDateSelect(String uId) throws Exception;
 }

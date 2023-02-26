@@ -19,8 +19,8 @@ update store set sDDate = now() where sId = #{sId};
 update store set sName = #{sName}, sCategory = #{sCategory}, sDong = #{sDong}, sTel = #{sTel}, sAddress = #{sAddress} where sId = #{sId} and sDDate is null;
 </update>
 
-<select id="UserDateSelect" resultType="com.jeju.base.dto.UserStoreDto">
-select uPassword, uName, uNickname, uEmail, uSex, uBirth from user where uid = #{uid};
+<select id="UserDateSelect" resultType="com.jeju.base.dto.UserDateDto">
+select uPassword, uName, uNickname, uEmail, uSex, uBirth from user where uId = #{uId};
 </select>
 
 </mapper>

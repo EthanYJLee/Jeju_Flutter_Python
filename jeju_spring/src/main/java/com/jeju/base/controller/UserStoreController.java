@@ -38,6 +38,7 @@ public class UserStoreController {
 	
 	@RequestMapping("/userSelect")
 	public String UserDateSelect(HttpServletRequest request, Model model) throws Exception{
+		System.out.println("userSelect");
 		service.UserDateSelect(request, model);
 		return "result";
 	}

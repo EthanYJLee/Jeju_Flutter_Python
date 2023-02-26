@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.jeju.base.dto.UserDateDto;
 import com.jeju.base.dto.UserStoreDto;
 
 public class UserStoreDaoImpl implements UserStoreDao {
@@ -32,8 +33,9 @@ public class UserStoreDaoImpl implements UserStoreDao {
 		sqlSession.update(nameSpace + ".UserStoreUpdate");
 	}
 	@Override
-	public List<UserStoreDto> UserDateSelect(String uid) throws Exception {
+	public List<UserDateDto> UserDateSelect(String uId) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("Dao : UserDateSelect:" + uId);
 		return sqlSession.selectList(nameSpace + ".UserDateSelect");
 	}
 

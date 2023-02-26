@@ -54,10 +54,10 @@ class Store {
   }
 
   //유저select
-  Future<List> userSelect(String uid) async {
-    print(uid);
-    String url = 'http://localhost:8080/userSelect?uId=$uid';
-    // print(url);
+  Future<List> userSelect(String uId) async {
+    // print(uid);
+    String url = 'http://localhost:8080/userSelect?uid=$uId';
+    print(url);
     var uri = Uri.parse(url);
     print(uri);
     var result = await http.get(uri);
@@ -65,8 +65,7 @@ class Store {
     var dataConvertedJson = json.decode(utf8.decode(result.bodyBytes));
     print(dataConvertedJson);
     List storeResult = dataConvertedJson['results'];
-    print(storeResult);
-    // print(storeResult);
+    // print(dataConvertedJson['results']);
     return storeResult;
   }
 }

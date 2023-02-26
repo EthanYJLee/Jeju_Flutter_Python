@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.jeju.base.dao.UserStoreDao;
+import com.jeju.base.dto.UserDateDto;
 import com.jeju.base.dto.UserStoreDto;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -90,13 +91,15 @@ public class UserStoreServiceImpl implements UserStoreService{
 	@Override
 	public void UserDateSelect(HttpServletRequest request, Model model) throws Exception {
 		// TODO Auto-generated method stub
-         String uid  = request.getParameter("uid");
+         String uId  = request.getParameter("uId");
+         System.out.println("UserDataSelect :" + uId );
 		
 		JSONObject jsonList = new JSONObject();
 	    JSONArray itemList = new JSONArray();
 	    
-	    List<UserStoreDto> dtos = dao.UserStoreSelect(uid);
+	    List<UserDateDto> dtos = dao.UserDateSelect(uId);
 	    
+	    System.out.println("UserDataSelect End:" + uId );
 	    for(int i =0; i<dtos.size(); i++) {
 	    	JSONObject tempJson = new JSONObject();
 	    	tempJson.put("uPassword", dtos.get(i).getuPassword());
@@ -104,6 +107,7 @@ public class UserStoreServiceImpl implements UserStoreService{
 	    	tempJson.put("uNickname", dtos.get(i).getuNickname());
 	    	tempJson.put("uEmail", dtos.get(i).getuEmail());
 	    	tempJson.put("uSex", dtos.get(i).getuSex());
+	    	tempJson.put("uBirth", dtos.get(i).getuBirth());
 	    	
 	    	itemList.add(tempJson);
 	    }
