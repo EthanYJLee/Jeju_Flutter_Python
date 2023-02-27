@@ -46,17 +46,6 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => Menu()),
-                        ),
-                      );
-                    },
-                    child: Text('home')),
-
                 // ID 입력
                 Padding(
                   padding: const EdgeInsets.only(left: 50.0, right: 50.0),
@@ -145,22 +134,22 @@ class _LoginState extends State<Login> {
                     '로그아웃',
                   ),
                 ),
-                TextButton(
-                  onPressed: () async {
-                    FlutterNaverLogin.logOutAndDeleteToken();
-                  },
-                  child: const Text(
-                    '연동 해제',
-                  ),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    _disposeSharedPreferences();
-                  },
-                  child: const Text(
-                    'SF 초기화',
-                  ),
-                ),
+                // TextButton(
+                //   onPressed: () async {
+                //     FlutterNaverLogin.logOutAndDeleteToken();
+                //   },
+                //   child: const Text(
+                //     '연동 해제',
+                //   ),
+                // ),
+                // TextButton(
+                //   onPressed: () async {
+                //     _disposeSharedPreferences();
+                //   },
+                //   child: const Text(
+                //     'SF 초기화',
+                //   ),
+                // ),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
