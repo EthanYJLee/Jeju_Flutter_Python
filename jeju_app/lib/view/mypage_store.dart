@@ -38,7 +38,7 @@ class _MyPage_StoreState extends State<MyPage_Store> {
 
   late int storeInt;
 
-  late String id = "";
+  late String uid = "";
   late String name = "";
 
   @override
@@ -47,18 +47,106 @@ class _MyPage_StoreState extends State<MyPage_Store> {
     super.initState();
     storetitle = [];
     // storetitle = await store.storeSelect('');
-    storeS();
+    // storeS();
 
     correctionName = TextEditingController();
 
-    correctionSectors = ['업종1', '업종2', '업종3'];
+    correctionSectors = ['한식', '일식', '중식', '양식', '패스트푸드', '음료', '외국음식'];
     selectedItem3 = correctionSectors[0];
 
     correctioncityList = ['제주시', '서귀포시'];
     selectedItem = correctioncityList[0];
 
-    correctionadministrationList1 = ['제주시1', '제주시2', '제주시3'];
-    correctionadministrationList2 = ['서귀포시1', '서귀포시2', '서귀포시3'];
+    correctionadministrationList1 = [
+      '건입동',
+      '구좌읍',
+      '남원읍',
+      '노형동',
+      '대륜동',
+      '대정읍',
+      '대천동',
+      '도두동',
+      '동홍동',
+      '봉개동',
+      '삼도이동',
+      '삼도일동',
+      '삼양동',
+      '서홍동',
+      '성산읍',
+      '송산동',
+      '아라동',
+      '안덕면',
+      '애월읍',
+      '연동',
+      '영천동',
+      '예래동',
+      '오라동',
+      '외도동',
+      '용담이동',
+      '용담일동',
+      '우도면',
+      '이도이동',
+      '이도일동',
+      '이호동',
+      '일도이동',
+      '일도일동',
+      '정방동',
+      '조천읍',
+      '중문동',
+      '중앙동',
+      '천지동',
+      '추자면',
+      '표선면',
+      '한경면',
+      '한림읍',
+      '화북동',
+      '효돈동'
+    ];
+    correctionadministrationList2 = [
+      '건입동',
+      '구좌읍',
+      '남원읍',
+      '노형동',
+      '대륜동',
+      '대정읍',
+      '대천동',
+      '도두동',
+      '동홍동',
+      '봉개동',
+      '삼도이동',
+      '삼도일동',
+      '삼양동',
+      '서홍동',
+      '성산읍',
+      '송산동',
+      '아라동',
+      '안덕면',
+      '애월읍',
+      '연동',
+      '영천동',
+      '예래동',
+      '오라동',
+      '외도동',
+      '용담이동',
+      '용담일동',
+      '우도면',
+      '이도이동',
+      '이도일동',
+      '이호동',
+      '일도이동',
+      '일도일동',
+      '정방동',
+      '조천읍',
+      '중문동',
+      '중앙동',
+      '천지동',
+      '추자면',
+      '표선면',
+      '한경면',
+      '한림읍',
+      '화북동',
+      '효돈동'
+    ];
 
     correctioncity = {
       '제주시': correctionadministrationList1,
@@ -81,8 +169,9 @@ class _MyPage_StoreState extends State<MyPage_Store> {
   _initSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      id = (prefs.getString('uId'))!;
+      uid = (prefs.getString('uId'))!;
       name = (prefs.getString('uName'))!;
+      storeS();
     });
   }
 
@@ -170,7 +259,7 @@ class _MyPage_StoreState extends State<MyPage_Store> {
   //Functions
   storeS() async {
     List listTest = [];
-    listTest = await store.storeSelect(id);
+    listTest = await store.storeSelect(uid);
     setState(() {
       storetitle = listTest;
     });

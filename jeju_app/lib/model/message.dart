@@ -5,4 +5,5 @@ class Message {
   static String sTel = '';
   static String sAddress = '';
   static int sId = 0;
+  static String uName = '';
 }

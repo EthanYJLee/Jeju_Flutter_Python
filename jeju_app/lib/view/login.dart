@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:jeju_app/model/login_signup.dart';
+import 'package:jeju_app/model/message.dart';
 import 'package:jeju_app/view/menu.dart';
 import 'package:jeju_app/view/search_id.dart';
 import 'package:jeju_app/view/search_pw.dart';
@@ -55,7 +56,7 @@ class _LoginState extends State<Login> {
                       );
                     },
                     child: Text('home')),
-    
+
                 // ID 입력
                 Padding(
                   padding: const EdgeInsets.only(left: 50.0, right: 50.0),
@@ -98,9 +99,11 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.only(left: 50.0, right: 50.0),
                   child: ElevatedButton(
-                    onPressed: correctid&&correctpw? () {
-                      _login();
-                    }:null,
+                    onPressed: correctid && correctpw
+                        ? () {
+                            _login();
+                          }
+                        : null,
                     child: const Text(
                       '로그인',
                     ),
@@ -135,7 +138,8 @@ class _LoginState extends State<Login> {
                 //여기서부터 디버그/테스트용 위젯
                 TextButton(
                   onPressed: () async {
-                    final NaverLoginResult res = await FlutterNaverLogin.logOut();
+                    final NaverLoginResult res =
+                        await FlutterNaverLogin.logOut();
                   },
                   child: const Text(
                     '로그아웃',
@@ -158,16 +162,22 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 TextButton(
-                  onPressed: ()  {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchId()));
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SearchId()));
                   },
                   child: const Text(
                     '아이디 찾기',
                   ),
                 ),
                 TextButton(
-                  onPressed: ()  {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPw()));
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SearchPw()));
                   },
                   child: const Text(
                     '비밀번호 찾기',
@@ -294,6 +304,8 @@ class _LoginState extends State<Login> {
     final pref = await SharedPreferences.getInstance();
     pref.setString('uId', id);
     pref.setString('uName', name);
+    Message.uName = '$name';
+    print(Message.uName);
   }
 
   //Desc: Shared Preferences 초기화

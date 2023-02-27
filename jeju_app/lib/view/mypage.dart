@@ -3,6 +3,7 @@ import 'package:jeju_app/model/store.dart';
 import 'package:jeju_app/view/mypage_preferences.dart';
 import 'package:jeju_app/view/mypage_store.dart';
 import 'package:jeju_app/view/sales_record_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyPage extends StatefulWidget {
   const MyPage({super.key});
@@ -12,6 +13,23 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
+  late String id = "";
+  late String name = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _initSharedPreferences();
+  }
+
+  _initSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = (prefs.getString('uId'))!;
+      name = (prefs.getString('uName'))!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +74,7 @@ class _MyPageState extends State<MyPage> {
                           bottom:
                               MediaQuery.of(context).viewInsets.bottom + 20),
                       child: Text(
-                        "userId 님 환영합니다.",
+                        "$name 님 환영합니다.",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
