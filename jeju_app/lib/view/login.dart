@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:jeju_app/model/login_signup.dart';
 import 'package:jeju_app/view/menu.dart';
+import 'package:jeju_app/view/search_id.dart';
+import 'package:jeju_app/view/search_pw.dart';
 import 'package:jeju_app/view/terms.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -153,6 +155,22 @@ class _LoginState extends State<Login> {
                   },
                   child: const Text(
                     'SF 초기화',
+                  ),
+                ),
+                TextButton(
+                  onPressed: ()  {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchId()));
+                  },
+                  child: const Text(
+                    '아이디 찾기',
+                  ),
+                ),
+                TextButton(
+                  onPressed: ()  {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPw()));
+                  },
+                  child: const Text(
+                    '비밀번호 찾기',
                   ),
                 ),
               ],
