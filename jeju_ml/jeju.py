@@ -45,12 +45,25 @@ def jeju():
     # feature = pd.concat([visits, month, dong_onehot, category_onehot], axis=1)
     feature = pd.concat([visits, dong_onehot, category_onehot], axis=1)
     
+
     print(feature)
+
+    # 행정동별 업종별 매장수 csv
+    res_counts = pd.read_csv("./jeju_ml/res_counts.csv")
+    count = res_counts[(res_counts['읍면동명']==dong)&(res_counts['업종명']==category)]['매장수'].values[0]
 
     rf = joblib.load("./jeju_ml/rf_jeju.h5")
     pre = rf.predict(feature.to_numpy())
 
-    return jsonify({'result': str(pre[0])})
+    if(count!=0):
+        re = float(pre[0])/float(count)
+    else:
+        count = 1
+        re = float(pre[0])/float(count)
+    
+    result = "{:.2f}".format(re)
+
+    return jsonify({'result': str(result)})
     
 
 # host_add = 'localhost'
