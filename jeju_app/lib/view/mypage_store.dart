@@ -47,6 +47,7 @@ class _MyPage_StoreState extends State<MyPage_Store> {
     super.initState();
     storetitle = [];
     // storetitle = await store.storeSelect('');
+    // storeS();
 
     correctionName = TextEditingController();
 
