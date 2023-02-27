@@ -10,7 +10,6 @@ import 'package:jeju_app/model/store.dart';
 import 'package:jeju_app/util/card_dialog.dart';
 import 'package:jeju_app/util/popup_card.dart';
 import 'package:jeju_app/util/popup_news.dart';
-import 'package:jeju_app/view/add_store.dart';
 import 'package:jeju_app/view/mypage_store_add.dart';
 import 'package:jeju_app/view/predict.dart';
 import 'package:http/http.dart' as http;

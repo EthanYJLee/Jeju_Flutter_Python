@@ -7,7 +7,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:jeju_app/model/message.dart';
 import 'package:jeju_app/util/popup_card.dart';
-import 'package:jeju_app/view/add_store.dart';
 import 'package:month_picker_dialog_2/month_picker_dialog_2.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;

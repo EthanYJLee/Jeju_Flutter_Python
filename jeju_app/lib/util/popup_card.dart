@@ -3,7 +3,6 @@
 // youngjin
 import 'package:flutter/material.dart';
 import 'package:jeju_app/model/record_message.dart';
-import 'package:jeju_app/view/add_store.dart';
 import 'package:jeju_app/view/predict.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
