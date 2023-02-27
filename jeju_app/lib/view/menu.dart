@@ -18,7 +18,7 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller = TabController(length: 3, vsync: this);
+    controller = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -26,7 +26,7 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
     return Scaffold(
       body: TabBarView(
         controller: controller,
-        children: const [Home(), Chat(), MyPage()],
+        children: const [Home(), MyPage()],
       ),
       bottomNavigationBar: Container(
         height: 80,
@@ -40,11 +40,11 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
                   Icons.home,
                 ),
               ),
-              Tab(
-                child: Icon(
-                  Icons.message_outlined,
-                ),
-              ),
+              // Tab(
+              //   child: Icon(
+              //     Icons.message_outlined,
+              //   ),
+              // ),
               Tab(
                 child: Icon(
                   Icons.person,
