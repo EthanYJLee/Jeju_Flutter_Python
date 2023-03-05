@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:jeju_app/view/login.dart';
 import 'package:jeju_app/view/mypage_edit_profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyPage_MyProfile extends StatefulWidget {
   const MyPage_MyProfile({super.key});
@@ -108,12 +109,25 @@ class _MyPage_MyProfileState extends State<MyPage_MyProfile> {
           title: const Text('로그아웃'),
           content: const Text('로그아웃 하시겠습니까?'),
           actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.pop(context);
-                },
-                child: const Text('OK'))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      _disposeSharedPreferences();
+                      Navigator.of(context).pop();
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    child: const Text('네')),
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.pop(context);
+                    },
+                    child: const Text('아니오')),
+              ],
+            )
           ],
         );
       },
@@ -148,4 +162,11 @@ class _MyPage_MyProfileState extends State<MyPage_MyProfile> {
       },
     );
   } //Secession
+
+  // Desc: Shared Preferences 초기화
+  // Date: 2023-02-22
+  static _disposeSharedPreferences() async {
+    final pref = await SharedPreferences.getInstance();
+    pref.clear();
+  }
 }//end
