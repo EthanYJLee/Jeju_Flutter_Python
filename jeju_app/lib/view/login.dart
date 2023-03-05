@@ -4,6 +4,7 @@ import 'package:jeju_app/kakao_login.dart';
 import 'package:jeju_app/model/kakao_model.dart';
 import 'package:jeju_app/model/login_signup.dart';
 import 'package:jeju_app/model/message.dart';
+import 'package:jeju_app/view/home.dart';
 import 'package:jeju_app/view/join.dart';
 import 'package:jeju_app/view/menu.dart';
 import 'package:jeju_app/view/search_id.dart';
@@ -110,11 +111,23 @@ class _LoginState extends State<Login> {
                           '로그인',
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 30,
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: ((context) => const Terms(
+                                    kakaoAccount: null,
+                                  )),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Color.fromARGB(255, 250, 169, 112)),
                         child: const Text(
                           '회원가입',
                         ),
@@ -131,19 +144,19 @@ class _LoginState extends State<Login> {
                     'images/kakao_login_medium_wide.png',
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: ((context) => const Terms(naver: null)),
-                    //   ),
-                    // );
-                  },
-                  child: const Text(
-                    '회원가입',
-                  ),
-                ),
+                // TextButton(
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: ((context) => const Terms(naver: null)),
+                //       ),
+                //     );
+                //   },
+                //   child: const Text(
+                //     '회원가입',
+                //   ),
+                // ),
                 //여기서부터 디버그/테스트용 위젯
                 // TextButton(
                 //   onPressed: () async {
@@ -358,6 +371,11 @@ class _LoginState extends State<Login> {
   // Date: 2023-02-27
   _kakaoShowDialog(BuildContext context) async {
     await kakaoModel.login();
+    final String? uEmail = kakaoModel.user!.kakaoAccount!.email;
+    LoginSignUp model = LoginSignUp();
+    String? uName = await model.kakaoCheck(uEmail!);
+    print(uName);
+
     setState(() {
       showDialog(
         context: context,
@@ -386,33 +404,57 @@ class _LoginState extends State<Login> {
             return AlertDialog(
               title: const Text('카카오 로그인 성공'),
               content: SizedBox(
-                height: 250,
+                height: 100,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(
-                      height: 50,
+                      height: 20,
                     ),
                     Text(
                       '${kakaoModel.user?.kakaoAccount?.profile?.nickname}님 환영합니다',
                       style: const TextStyle(
-                        fontSize: 25,
+                        fontSize: 20,
                       ),
                     ),
                   ],
                 ),
               ),
-              actions: [
-                ElevatedButton(
-                  onPressed: (() {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) => Join())));
-                  }),
-                  child: const Text(
-                    '확인',
-                  ),
-                ),
-              ],
+              // Desc: DB에 이름이 있는지 (가입되어있는지) 확인
+              // Date: 2023-03-06
+              // youngjin
+              actions: uName.isEmpty
+                  ? [
+                      ElevatedButton(
+                        onPressed: (() {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => Terms(
+                                      kakaoAccount: kakaoModel
+                                          .user!.kakaoAccount!.email
+                                          .toString()))));
+                        }),
+                        child: const Text(
+                          '가입하기',
+                        ),
+                      ),
+                    ]
+                  : [
+                      ElevatedButton(
+                          onPressed: (() {
+                            _saveId(
+                                kakaoModel.user!.kakaoAccount!.email.toString(),
+                                kakaoModel.user!.kakaoAccount!.profile!.nickname
+                                    .toString());
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => const Menu())));
+                          }),
+                          child: const Text('로그인'))
+                    ],
             );
           }
         }),

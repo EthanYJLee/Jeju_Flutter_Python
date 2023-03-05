@@ -57,7 +57,9 @@ public class LoginSignUpDaoImpl implements LoginSignUpDao {
 		return sqlSession.selectOne(nameSpace + ".NaverCheck");
 	}
 	
-	
+	// Desc: 카카오로 회원가입 되어 있는지 확인
+	// Date: 2023-03-06
+	// youngjin
 	@Override
 	public String kakaoCheck(String uId) throws Exception {
 		// TODO Auto-generated method stub

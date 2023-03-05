@@ -110,7 +110,7 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		// TODO Auto-generated method stub
 		String uId=request.getParameter("uId");
 		
-		String uName=dao.NaverCheck(uId);
+		String uName=dao.kakaoCheck(uId);
 		
 		if (uName==null) {
 			uName="";
@@ -122,7 +122,7 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		
 		tempJson.put("check", uName);
 		itemList.add(tempJson);
-		jsonList.put("results", itemList);
+		jsonList.put("result", itemList);
 		model.addAttribute("result", jsonList.toJSONString());
 		
 		

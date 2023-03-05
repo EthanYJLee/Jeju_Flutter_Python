@@ -36,8 +36,8 @@ class _HomeState extends State<Home> {
   // Desc: Shared Preferences 받기
   // Date: 2023-02-22
   // youngjin
-  late String id = "";
-  late String name = "";
+  late String uId = "";
+  late String uName = "";
 
   late List stores = [];
 
@@ -45,7 +45,11 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _initSharedPreferences();
+    _initSharedPreferences().then((_) {
+      setState(() {
+        _getMyStore();
+      });
+    });
 
     // initNews().then((_) {
     //   setState(() {
@@ -58,13 +62,13 @@ class _HomeState extends State<Home> {
   // Desc: 내 매장 정보 가져오기
   // Date: 2023-02-26
   // youngjin
-  // _getMyStore() async {
-  //   StoreModel _store = StoreModel();
-  //   stores = await _store.storeSelect(id);
-  //   setState(() {
-  //     print(stores);
-  //   });
-  // }
+  _getMyStore() async {
+    StoreModel _store = StoreModel();
+    stores = await _store.storeSelect(uId);
+    setState(() {
+      print(stores);
+    });
+  }
 
   // Desc: Shared Preferences
   // Date: 2023-02-23
@@ -72,72 +76,10 @@ class _HomeState extends State<Home> {
   _initSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      id = (prefs.getString('uId'))!;
-      name = (prefs.getString('uName'))!;
+      uId = (prefs.getString('uId'))!;
+      uName = (prefs.getString('uName'))!;
     });
   }
-
-  // Desc: 관광 관련 News 보여주는 ListView
-  // Date: 2023-02-22
-  // youngjin
-  // Widget _viewNews() {
-  //   return Container(
-  //     height: 300,
-  //     width: 350,
-  //     child: Column(
-  //       children: [
-  //         isLoading
-  //             ? Row(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 children: const [CircularProgressIndicator()],
-  //               )
-  //             : Expanded(
-  //                 child: ListView.builder(
-  //                     shrinkWrap: true,
-  //                     scrollDirection: Axis.vertical,
-  //                     itemCount: news.length,
-  //                     itemBuilder: (context, index) {
-  //                       return Container(
-  //                         decoration: BoxDecoration(
-  //                           borderRadius: BorderRadius.circular(8),
-  //                           border: Border.all(
-  //                             style: BorderStyle.solid,
-  //                             color: Color.fromARGB(48, 161, 149, 149),
-  //                             width: 2,
-  //                           ),
-  //                         ),
-  //                         height: 60,
-  //                         width: 160,
-  //                         child: Card(
-  //                           child: InkWell(
-  //                             onTap: () {
-  //                               Navigator.of(context)
-  //                                   .push(CardDialog(builder: (context) {
-  //                                 return PopupNews(
-  //                                     title: news[index].title,
-  //                                     description: news[index].description,
-  //                                     originallink: news[index].originallink);
-  //                               }));
-  //                             },
-  //                             child: Column(
-  //                               children: [
-  //                                 Text(
-  //                                   news[index].title,
-  //                                   style: const TextStyle(
-  //                                       fontSize: 17, color: Colors.black),
-  //                                   maxLines: 4,
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                         ),
-  //                       );
-  //                     }),
-  //               ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   // Desc: 내 매장 목록 보여주는 리스트뷰
   // Date: 2023-02-21
@@ -260,6 +202,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Home'),
       ),
       body: Center(
@@ -271,7 +214,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    '$name님의 매장',
+                    '$uName님의 매장',
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 20),
                   ),
@@ -295,15 +238,6 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-
-            // ElevatedButton(
-            //     onPressed: () {
-            //       Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: ((context) => const AddStore())));
-            //     },
-            //     child: const Text('매장추가(임시)')),
             Container(
                 height: 110,
                 width: 350,
@@ -357,44 +291,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-// --------------------------------------------------------
-
-// ----------------------Functions----------------------
-// Future<List<NewsModel>> getNews() async {
-//   List<NewsModel> _newslist = [];
-//   NewsModel _newsModel;
-//   Map<String, String> header = {
-//     'X-Naver-Client-Id': 'f6wde9wfHSqXYORRMmgN',
-//     'X-Naver-Client-Secret': 'n_K6rgD9dR'
-//   };
-
-//   var query = '제주도 관광';
-//   var url = Uri.parse(
-//       'https://openapi.naver.com/v1/search/news.json?query=${query}&display=10&start=1');
-//   var res = await http.get(url, headers: header);
-//   var news = json.decode(utf8.decode(res.bodyBytes));
-//   if (res.statusCode == 200) {
-//     for (var i in news['items']) {
-//       String title = parseHtmlString(i['title']);
-//       String description = parseHtmlString(i['description']);
-//       String originallink = parseHtmlString(i['originallink']);
-//       _newsModel = NewsModel(
-//           title: title, description: description, originallink: originallink);
-//       _newslist.add(_newsModel);
-//     }
-//   }
-//   return _newslist;
-// }
-
-// String parseHtmlString(String htmlString) {
-//   try {
-//     final document = parse(htmlString);
-//     final String parsedString =
-//         parse(document.body!.text).documentElement!.text;
-
-//     return parsedString;
-//   } catch (e) {
-//     return htmlString;
-//   }
-// }

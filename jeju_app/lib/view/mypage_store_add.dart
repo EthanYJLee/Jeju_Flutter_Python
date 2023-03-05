@@ -39,7 +39,7 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       user_uid = (prefs.getString('uId'))!;
-      user_uIdType = (prefs.getString('uIdType'))!;
+      // user_uIdType = (prefs.getString('uIdType'))!;
     });
   }
 

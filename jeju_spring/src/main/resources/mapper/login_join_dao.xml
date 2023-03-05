@@ -40,7 +40,8 @@
 		select uName from `user` where uId=#{uId} and uIdType="naver" and uDdate is null;
 	</select>
 	
+	<!-- 카카오 가입 여부 확인, 2023-03-06 -->
 	<select id='kakaoCheck' resultType="string">
-		select uName from `user` where uId=#{uId} and uIdType="naver" and uDdate is null;
+		select uName from `user` where uId=#{uId} and uIdType="kakao" and uDdate is null;
 	</select>
 </mapper>

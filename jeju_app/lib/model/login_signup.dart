@@ -63,8 +63,8 @@ class LoginSignUp {
     var uri = Uri.parse(url);
     var result = await http.get(uri);
     var dataConvertedJson = json.decode(utf8.decode(result.bodyBytes));
-    String name = dataConvertedJson['results'][0]['check'];
+    String uName = dataConvertedJson['result'][0]['check'];
 
-    return name;
+    return uName;
   }
 }

@@ -61,6 +61,7 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('마이페이지'),
         // title: const Text('My Page'),
         actions: [

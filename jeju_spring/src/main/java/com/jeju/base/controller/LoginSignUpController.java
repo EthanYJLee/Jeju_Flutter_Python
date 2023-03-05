@@ -49,8 +49,8 @@ public class LoginSignUpController {
 		return "result";
 	}
 	
-	//Desc: 네이버로 회원가입이 되어 있는지 확인
-	//Date: 2023-02-22
+	//Desc: 카카오로 회원가입이 되어 있는지 확인
+	//Date: 2023-03-06
 	@RequestMapping("/kakaoCheck")
 	public String kakaoCheck(HttpServletRequest request, Model model) throws Exception{
 		service.kakaoCheck(request, model);
