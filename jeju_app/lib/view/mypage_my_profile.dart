@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 
 import 'package:jeju_app/view/login.dart';
-import 'package:jeju_app/view/mypage_perferences_profile.dart';
+import 'package:jeju_app/view/mypage_edit_profile.dart';
 
-
-class MyPage_Preferences extends StatefulWidget {
-  const MyPage_Preferences({super.key});
+class MyPage_MyProfile extends StatefulWidget {
+  const MyPage_MyProfile({super.key});
 
   @override
-  State<MyPage_Preferences> createState() => _MyPage_PreferencesState();
+  State<MyPage_MyProfile> createState() => _MyPage_MyProfileState();
 }
 
-class _MyPage_PreferencesState extends State<MyPage_Preferences> {
+class _MyPage_MyProfileState extends State<MyPage_MyProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Preferences Test'),
+        title: const Text('정보 수정'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -47,7 +46,7 @@ class _MyPage_PreferencesState extends State<MyPage_Preferences> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const MyPage_Profile(),
+                            builder: (context) => MyPage_Profile(),
                           ),
                         );
                       },
@@ -73,16 +72,6 @@ class _MyPage_PreferencesState extends State<MyPage_Preferences> {
                   ),
                 ],
               ),
-              // Row(
-              //   children: [
-              //     TextButton(
-              //         onPressed: () {
-              //           //--
-              //         },
-              //         child: const Text('공지사항',
-              //             style: TextStyle(fontSize: 18, color: Colors.black))),
-              //   ],
-              // ),
               Row(
                 children: [
                   TextButton(

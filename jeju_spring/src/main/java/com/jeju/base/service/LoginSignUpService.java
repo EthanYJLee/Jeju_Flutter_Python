@@ -12,4 +12,5 @@ public interface LoginSignUpService {
 	public void IdCheck(HttpServletRequest request, Model model) throws Exception;
 	public void Login(HttpServletRequest request, Model model) throws Exception;
 	public void NaverCheck(HttpServletRequest request, Model model) throws Exception;
+	public void kakaoCheck(HttpServletRequest request, Model model) throws Exception;
 }

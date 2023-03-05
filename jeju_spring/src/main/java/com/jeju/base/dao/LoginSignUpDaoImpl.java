@@ -56,5 +56,12 @@ public class LoginSignUpDaoImpl implements LoginSignUpDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(nameSpace + ".NaverCheck");
 	}
+	
+	
+	@Override
+	public String kakaoCheck(String uId) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(nameSpace + ".kakaoCheck");
+	}
 
 }

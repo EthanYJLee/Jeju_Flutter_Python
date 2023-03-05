@@ -29,6 +29,7 @@ def jeju():
                  '삼도일동', '삼양동', '서홍동', '성산읍', '송산동', '아라동', '안덕면', '애월읍', '연동', '영천동', '예래동',
                  '오라동', '외도동', '용담이동', '용담일동', '우도면', '이도이동', '이도일동', '이호동', '일도이동', '일도일동', '정방동',
                  '조천읍', '중문동', '중앙동', '천지동', '추자면', '표선면', '한경면', '한림읍', '화북동', '효돈동']
+
     dong_index = dong_list.index(dong)
     dong_onehot = [
         [0 if i != dong_index else 1 for i in range(len(dong_list))]]
@@ -42,9 +43,7 @@ def jeju():
     category_onehot = pd.DataFrame(category_onehot)
 
     # Feature DataFrame 생성 (병합)
-    # feature = pd.concat([visits, month, dong_onehot, category_onehot], axis=1)
     feature = pd.concat([visits, dong_onehot, category_onehot], axis=1)
-    
 
     print(feature)
 

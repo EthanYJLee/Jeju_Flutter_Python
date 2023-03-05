@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jeju_app/model/store.dart';
+import 'package:jeju_app/model/store_model.dart';
 
 class MyPage_Profile extends StatefulWidget {
   const MyPage_Profile({super.key});
@@ -18,7 +18,7 @@ class _MyPage_ProfileState extends State<MyPage_Profile> {
   late String userBrith;
   late String userSex;
 
-  Store store = Store();
+  StoreModel store = StoreModel();
   late List storetitle;
 
   @override

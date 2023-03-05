@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:jeju_app/model/login_signup.dart';
 import 'package:jeju_app/view/join.dart';
 import 'package:jeju_app/view/menu.dart';
 
 class Terms extends StatefulWidget {
-  final NaverAccountResult? naver;
-  const Terms({super.key, required this.naver});
+  // final NaverAccountResult? naver;
+  // const Terms({super.key, required this.naver});
+  const Terms({super.key});
 
   @override
   State<Terms> createState() => _TermsState();
@@ -46,9 +46,9 @@ class _TermsState extends State<Terms> {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    if (widget.naver != null) {
-                      FlutterNaverLogin.logOutAndDeleteToken();
-                    }
+                    // if (widget.naver != null) {
+                    //   FlutterNaverLogin.logOutAndDeleteToken();
+                    // }
                   },
                   child: const Text(
                     '동의하지 않습니다',
@@ -60,18 +60,18 @@ class _TermsState extends State<Terms> {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    if (widget.naver != null) {
-                      _naverJoin();
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const Join();
-                          },
-                        ),
-                      );
-                    }
+                    // if (widget.naver != null) {
+                    //   _naverJoin();
+                    // } else {
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) {
+                    //         return const Join();
+                    //       },
+                    //     ),
+                    //   );
+                    // }
                   },
                   child: const Text(
                     '동의합니다',
@@ -89,23 +89,23 @@ class _TermsState extends State<Terms> {
 
   //Desc: 네이버 회원가입
   //Date: 2023-02-22
-  _naverJoin() async {
-    String id = widget.naver!.id;
-    String name = widget.naver!.name;
-    String nickname = widget.naver!.nickname;
-    String birth = '${widget.naver!.birthyear}-${widget.naver!.birthday}';
-    String sex = widget.naver!.gender == 'M'
-        ? '남자'
-        : widget.naver!.gender == 'F'
-            ? '여자'
-            : '기타';
-    String email = widget.naver!.email;
+  // _naverJoin() async {
+  //   String id = widget.naver!.id;
+  //   String name = widget.naver!.name;
+  //   String nickname = widget.naver!.nickname;
+  //   String birth = '${widget.naver!.birthyear}-${widget.naver!.birthday}';
+  //   String sex = widget.naver!.gender == 'M'
+  //       ? '남자'
+  //       : widget.naver!.gender == 'F'
+  //           ? '여자'
+  //           : '기타';
+  //   String email = widget.naver!.email;
 
-    LoginSignUp model = LoginSignUp();
-    model.join(id, 'naver', '', name, nickname, email, sex, birth);
+  //   LoginSignUp model = LoginSignUp();
+  //   model.join(id, 'naver', '', name, nickname, email, sex, birth);
 
-    _naverDialog();
-  }
+  //   _naverDialog();
+  // }
 
   //Desc: 네이버 회원가입 다이얼로그
   //Date: 2023-02-22
