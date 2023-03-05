@@ -95,16 +95,31 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-                  child: ElevatedButton(
-                    onPressed: correctid && correctpw
-                        ? () {
-                            _login();
-                          }
-                        : null,
-                    child: const Text(
-                      '로그인',
-                    ),
+                  padding: const EdgeInsets.only(
+                      left: 50.0, right: 50.0, top: 10, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: correctid && correctpw
+                            ? () {
+                                _login();
+                              }
+                            : null,
+                        child: const Text(
+                          '로그인',
+                        ),
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: const Text(
+                          '회원가입',
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 // -------------Kakao 로그인--------------
@@ -130,37 +145,41 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 //여기서부터 디버그/테스트용 위젯
-                TextButton(
-                  onPressed: () async {
-                    // final NaverLoginResult res =
-                    //     await FlutterNaverLogin.logOut();
-                  },
-                  child: const Text(
-                    '로그아웃',
-                  ),
-                ),
-
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SearchId()));
-                  },
-                  child: const Text(
-                    '아이디 찾기',
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SearchPw()));
-                  },
-                  child: const Text(
-                    '비밀번호 찾기',
-                  ),
+                // TextButton(
+                //   onPressed: () async {
+                //     // final NaverLoginResult res =
+                //     //     await FlutterNaverLogin.logOut();
+                //   },
+                //   child: const Text(
+                //     '로그아웃',
+                //   ),
+                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchId()));
+                      },
+                      child: const Text(
+                        '아이디 찾기',
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchPw()));
+                      },
+                      child: const Text(
+                        '비밀번호 찾기',
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

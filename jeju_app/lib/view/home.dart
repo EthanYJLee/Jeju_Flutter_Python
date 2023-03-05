@@ -188,7 +188,11 @@ class _HomeState extends State<Home> {
                           SizedBox(
                             height: 20,
                           ),
-                          Text('매장 등록하기'),
+                          Text(
+                            '매장 등록하기',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
                         ],
                       ),
                     ),
@@ -301,48 +305,52 @@ class _HomeState extends State<Home> {
             //     },
             //     child: const Text('매장추가(임시)')),
             Container(
-              height: 110,
-              width: 350,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  style: BorderStyle.solid,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 1,
+                height: 110,
+                width: 350,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    style: BorderStyle.solid,
+                    width: 1,
                   ),
-                ],
-              ),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => const NewsMain())));
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.newspaper,
-                      color: Colors.amberAccent,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      '제주 관광 뉴스',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 1,
                     ),
                   ],
                 ),
-              ),
-            ),
+                child: Card(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                  elevation: 2,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => const NewsMain())));
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.newspaper,
+                          color: Colors.amberAccent,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          '제주 관광 뉴스',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
           ],
         ),
       ),
