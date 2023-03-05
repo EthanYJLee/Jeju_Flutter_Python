@@ -105,4 +105,27 @@ public class LoginSignUpServiceImpl implements LoginSignUpService {
 		model.addAttribute("result", jsonList.toJSONString());
 	}
 
+	@Override
+	public void kakaoCheck(HttpServletRequest request, Model model) throws Exception {
+		// TODO Auto-generated method stub
+		String uId=request.getParameter("uId");
+		
+		String uName=dao.NaverCheck(uId);
+		
+		if (uName==null) {
+			uName="";
+		}
+		
+		JSONObject jsonList = new JSONObject();
+		JSONArray itemList = new JSONArray();
+		JSONObject tempJson = new JSONObject();
+		
+		tempJson.put("check", uName);
+		itemList.add(tempJson);
+		jsonList.put("results", itemList);
+		model.addAttribute("result", jsonList.toJSONString());
+		
+		
+	}
+
 }

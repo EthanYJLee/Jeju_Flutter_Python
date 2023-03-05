@@ -197,7 +197,7 @@ class _PredictState extends State<Predict> {
   // youngjin
   Widget _myInfoArea() {
     return Container(
-      height: 250,
+      height: 200,
       padding: const EdgeInsets.only(left: 100, right: 100),
       child: Column(
         children: [
@@ -218,6 +218,9 @@ class _PredictState extends State<Predict> {
           TextField(
             controller: categoryController,
             readOnly: true,
+          ),
+          const SizedBox(
+            height: 10,
           ),
         ],
       ),
@@ -243,11 +246,11 @@ class _PredictState extends State<Predict> {
           .add(DropdownMenuEntry<String>(value: category, label: category));
     }
     return Container(
-      height: 250,
+      height: 200,
       child: Column(
         children: [
           const SizedBox(
-            height: 30,
+            height: 10,
           ),
           Expanded(
             child: DropdownMenu(
@@ -281,7 +284,7 @@ class _PredictState extends State<Predict> {
             ),
           ),
           const SizedBox(
-            height: 80,
+            height: 50,
           ),
         ],
       ),
@@ -289,7 +292,6 @@ class _PredictState extends State<Predict> {
   }
 
   // --------------------------build------------------------------
-
   DateTime? selectedDate;
   // String month = "";
   double _currentSliderPrimaryValue = 66000;
@@ -311,37 +313,41 @@ class _PredictState extends State<Predict> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 _getSetInfo(),
-                const Text('국내 관광객'),
-                Slider(
-                  value: _currentSliderPrimaryValue,
-                  min: 2500,
-                  max: 130000,
-                  divisions: 100,
-                  label: _currentSliderPrimaryValue.round().toString(),
-                  onChanged: (double value) {
-                    setState(() {
-                      _currentSliderPrimaryValue = value;
-                      local = value.round().toInt();
-                    });
-                  },
-                ),
-                const Text('중국인 유동인구'),
-                Slider(
-                  value: _currentSliderSecondaryValue,
-                  min: 2500,
-                  max: 60000,
-                  divisions: 100,
-                  label: _currentSliderSecondaryValue.round().toString(),
-                  onChanged: (double value) {
-                    setState(() {
-                      _currentSliderSecondaryValue = value;
-                      chinese = value.round().toInt();
-                    });
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+                Container(
+                    height: 150,
+                    child: Column(
+                      children: [
+                        const Text('국내 관광객'),
+                        Slider(
+                          value: _currentSliderPrimaryValue,
+                          min: 2500,
+                          max: 130000,
+                          divisions: 100,
+                          label: _currentSliderPrimaryValue.round().toString(),
+                          onChanged: (double value) {
+                            setState(() {
+                              _currentSliderPrimaryValue = value;
+                              local = value.round().toInt();
+                            });
+                          },
+                        ),
+                        const Text('중국인 유동인구'),
+                        Slider(
+                          value: _currentSliderSecondaryValue,
+                          min: 2500,
+                          max: 60000,
+                          divisions: 100,
+                          label:
+                              _currentSliderSecondaryValue.round().toString(),
+                          onChanged: (double value) {
+                            setState(() {
+                              _currentSliderSecondaryValue = value;
+                              chinese = value.round().toInt();
+                            });
+                          },
+                        ),
+                      ],
+                    )),
                 if (selectedDate == null)
                   const Text(
                     '년/월을 선택해주세요',
@@ -362,17 +368,28 @@ class _PredictState extends State<Predict> {
                   ),
                   onPressed: () => _onPressed(),
                 ),
-                FilledButton.tonal(
-                  onPressed: () {
-                    dong = dongController.text;
-                    category = categoryController.text;
-                    strLocal = local.toString();
-                    strChinese = chinese.toString();
-                    // month =
-                    //     (DateFormat().add_M().format(selectedDate!)).toString();
-                    getJSONData();
-                  },
-                  child: const Text('예측'),
+                const Divider(
+                  thickness: 2,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  height: 50,
+                  width: 100,
+                  child: FilledButton.tonal(
+                    onPressed: () {
+                      dong = dongController.text;
+                      category = categoryController.text;
+                      strLocal = local.toString();
+                      strChinese = chinese.toString();
+                      selectedDate ??= DateTime.now();
+
+                      getJSONData();
+                    },
+                    style: ButtonStyle(),
+                    child: const Text('예측'),
+                  ),
                 )
               ],
             ),
@@ -400,17 +417,33 @@ class _PredictState extends State<Predict> {
         context: context,
         builder: ((BuildContext context) {
           return AlertDialog(
-            title: const Text('예측 결과'),
+            title: const Text(
+              '예측 결과',
+              textAlign: TextAlign.center,
+            ),
             content: Text(
-              '선택하신 달의\n$dong $category업종\n매출 예측 결과는\n$result원 입니다.',
+              '${DateTime.parse(selectedDate.toString()).year}년 ${DateTime.parse(selectedDate.toString()).month}월의\n$dong $category업종\n매출 예측 결과는\n$result원 입니다.',
               textAlign: TextAlign.center,
             ),
             actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK')),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('확인')),
+                    TextButton(
+                        onPressed: () {
+                          // -----------
+                        },
+                        child: const Text('기록 저장하기')),
+                  ],
+                ),
+              ),
             ],
           );
         }));

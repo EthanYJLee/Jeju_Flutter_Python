@@ -39,4 +39,8 @@
 	<select id='NaverCheck' resultType="string">
 		select uName from `user` where uId=#{uId} and uIdType="naver" and uDdate is null;
 	</select>
+	
+	<select id='kakaoCheck' resultType="string">
+		select uName from `user` where uId=#{uId} and uIdType="naver" and uDdate is null;
+	</select>
 </mapper>

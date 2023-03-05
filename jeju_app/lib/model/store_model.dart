@@ -3,7 +3,7 @@ import 'dart:ffi';
 
 import 'package:http/http.dart' as http;
 
-class Store {
+class StoreModel {
   //가게select
   Future<List> storeSelect(String uId) async {
     String url = 'http://localhost:8080/storeSelect?uId=$uId';

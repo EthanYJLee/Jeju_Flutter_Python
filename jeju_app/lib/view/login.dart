@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:jeju_app/kakao_login.dart';
+import 'package:jeju_app/model/kakao_model.dart';
 import 'package:jeju_app/model/login_signup.dart';
 import 'package:jeju_app/model/message.dart';
+import 'package:jeju_app/view/join.dart';
 import 'package:jeju_app/view/menu.dart';
 import 'package:jeju_app/view/search_id.dart';
 import 'package:jeju_app/view/search_pw.dart';
@@ -22,6 +24,8 @@ class _LoginState extends State<Login> {
   TextEditingController pwController = TextEditingController();
   late bool correctid;
   late bool correctpw;
+
+  final kakaoModel = KakaoModel(KakaoLogin());
 
   @override
   void initState() {
@@ -46,6 +50,11 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Image.asset(
+                  "images/dol.png",
+                  height: 200,
+                  width: 200,
+                ),
                 // ID 입력
                 Padding(
                   padding: const EdgeInsets.only(left: 50.0, right: 50.0),
@@ -86,91 +95,91 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-                  child: ElevatedButton(
-                    onPressed: correctid && correctpw
-                        ? () {
-                            _login();
-                          }
-                        : null,
-                    child: const Text(
-                      '로그인',
-                    ),
+                  padding: const EdgeInsets.only(
+                      left: 50.0, right: 50.0, top: 10, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: correctid && correctpw
+                            ? () {
+                                _login();
+                              }
+                            : null,
+                        child: const Text(
+                          '로그인',
+                        ),
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: const Text(
+                          '회원가입',
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    _naverLogin();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-                    child: Image.asset(
-                      'images/btnW_완성형.png',
-                      width: 200,
-                      height: 100,
-                    ),
+                // -------------Kakao 로그인--------------
+                InkWell(
+                  onTap: (() async {
+                    _kakaoShowDialog(context);
+                  }),
+                  child: Image.asset(
+                    'images/kakao_login_medium_wide.png',
                   ),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: ((context) => const Terms(naver: null)),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: ((context) => const Terms(naver: null)),
+                    //   ),
+                    // );
                   },
                   child: const Text(
                     '회원가입',
                   ),
                 ),
                 //여기서부터 디버그/테스트용 위젯
-                TextButton(
-                  onPressed: () async {
-                    final NaverLoginResult res =
-                        await FlutterNaverLogin.logOut();
-                  },
-                  child: const Text(
-                    '로그아웃',
-                  ),
-                ),
                 // TextButton(
                 //   onPressed: () async {
-                //     FlutterNaverLogin.logOutAndDeleteToken();
+                //     // final NaverLoginResult res =
+                //     //     await FlutterNaverLogin.logOut();
                 //   },
                 //   child: const Text(
-                //     '연동 해제',
+                //     '로그아웃',
                 //   ),
                 // ),
-                // TextButton(
-                //   onPressed: () async {
-                //     _disposeSharedPreferences();
-                //   },
-                //   child: const Text(
-                //     'SF 초기화',
-                //   ),
-                // ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SearchId()));
-                  },
-                  child: const Text(
-                    '아이디 찾기',
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SearchPw()));
-                  },
-                  child: const Text(
-                    '비밀번호 찾기',
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchId()));
+                      },
+                      child: const Text(
+                        '아이디 찾기',
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchPw()));
+                      },
+                      child: const Text(
+                        '비밀번호 찾기',
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -199,29 +208,31 @@ class _LoginState extends State<Login> {
 
   //Desc: 네이버 로그인
   //Date: 2023-02-22
-  _naverLogin() async {
-    final NaverLoginResult res = await FlutterNaverLogin.logIn();
-    String id = res.account.id;
+  // _naverLogin() async {
+  //   NaverLoginResult _naverResult = await FlutterNaverLogin.logIn();
+  //   final String _naverId = _naverResult.account.id;
+  //   final String _naverEmail = _naverResult.account.email;
+  //   final String _naverName = _naverResult.account.name;
 
-    if (res.status == NaverLoginStatus.loggedIn) {
-      LoginSignUp model = LoginSignUp();
-      String? name = await model.naverCheck(id);
+  //   if (_naverResult.status == NaverLoginStatus.loggedIn) {
+  //     LoginSignUp model = LoginSignUp();
+  //     String? name = await model.naverCheck(_naverId);
 
-      if (!mounted) return;
-      if (name.isNotEmpty) {
-        _loginsuccessdialog(name, id);
-      } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return Terms(naver: res.account);
-            },
-          ),
-        );
-      }
-    }
-  }
+  //     if (!mounted) return;
+  //     if (name.isNotEmpty) {
+  //       _loginsuccessdialog(name, _naverId);
+  //     } else {
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) {
+  //             return Terms(naver: _naverResult.account);
+  //           },
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
 
   //Desc: 로그인 성공 다이얼로그
   //Date: 2023-02-22
@@ -341,5 +352,71 @@ class _LoginState extends State<Login> {
         );
       },
     );
+  }
+
+  // Desc: 카카오 로그인 시도시 성공/실패에 따라 Dialog 출력
+  // Date: 2023-02-27
+  _kakaoShowDialog(BuildContext context) async {
+    await kakaoModel.login();
+    setState(() {
+      showDialog(
+        context: context,
+        builder: ((context) {
+          if (kakaoModel.user?.kakaoAccount?.profile?.nickname == null) {
+            return AlertDialog(
+              title: const Text('카카오 로그인 실패'),
+              content: const Text('로그인 정보 불러오기에 실패했습니다'),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(),
+                      onPressed: (() {
+                        Navigator.pop(context);
+                      }),
+                      child: const Text('뒤로가기'),
+                    ),
+                  ],
+                )
+              ],
+            );
+            // DB check
+          } else {
+            return AlertDialog(
+              title: const Text('카카오 로그인 성공'),
+              content: SizedBox(
+                height: 250,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      '${kakaoModel.user?.kakaoAccount?.profile?.nickname}님 환영합니다',
+                      style: const TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: (() {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => Join())));
+                  }),
+                  child: const Text(
+                    '확인',
+                  ),
+                ),
+              ],
+            );
+          }
+        }),
+      );
+    });
   }
 }
