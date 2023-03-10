@@ -125,9 +125,6 @@ class _LoginState extends State<Login> {
                             ),
                           );
                         },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Color.fromARGB(255, 250, 169, 112)),
                         child: const Text(
                           '회원가입',
                         ),
@@ -317,6 +314,16 @@ class _LoginState extends State<Login> {
     final pref = await SharedPreferences.getInstance();
     pref.setString('uId', id);
     pref.setString('uName', name);
+    pref.setString('uIdType', 'common');
+    Message.uName = '$name';
+    print(Message.uName);
+  }
+
+  _saveKakao(id, name) async {
+    final pref = await SharedPreferences.getInstance();
+    pref.setString('uId', id);
+    pref.setString('uName', name);
+    pref.setString('uIdType', 'kakao');
     Message.uName = '$name';
     print(Message.uName);
   }
@@ -443,7 +450,7 @@ class _LoginState extends State<Login> {
                   : [
                       ElevatedButton(
                           onPressed: (() {
-                            _saveId(
+                            _saveKakao(
                                 kakaoModel.user!.kakaoAccount!.email.toString(),
                                 kakaoModel.user!.kakaoAccount!.profile!.nickname
                                     .toString());

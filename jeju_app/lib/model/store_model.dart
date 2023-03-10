@@ -56,7 +56,7 @@ class StoreModel {
   //유저select
   Future<List> userSelect(String uId) async {
     // print(uid);
-    String url = 'http://localhost:8080/userSelect?uid=$uId';
+    String url = 'http://localhost:8080/userSelect?uId=$uId';
     print(url);
     var uri = Uri.parse(url);
     print(uri);
@@ -65,7 +65,7 @@ class StoreModel {
     var dataConvertedJson = json.decode(utf8.decode(result.bodyBytes));
     print(dataConvertedJson);
     List storeResult = dataConvertedJson['results'];
-    // print(dataConvertedJson['results']);
+    print(dataConvertedJson['results']);
     return storeResult;
   }
 }
