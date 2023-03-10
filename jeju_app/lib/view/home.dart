@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:jeju_app/model/news_model.dart';
 import 'package:jeju_app/model/store_model.dart';
 import 'package:jeju_app/util/card_dialog.dart';
+import 'package:jeju_app/util/drawer_home.dart';
 import 'package:jeju_app/util/popup_card.dart';
 import 'package:jeju_app/util/popup_news.dart';
 import 'package:jeju_app/view/mypage_store_add.dart';
@@ -39,7 +40,13 @@ class _HomeState extends State<Home> {
   late String uId = "";
   late String uName = "";
 
+  // Desc: 내 매장 리스트 확인
+  // Date: 2023-03-07
+  // youngjin
   late List stores = [];
+
+  // Drawer
+  final DrawerHome drawerHome = DrawerHome();
 
   @override
   void initState() {
@@ -202,8 +209,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         title: const Text('Home'),
+      ),
+      drawer: Drawer(
+        child: drawerHome,
       ),
       body: Center(
         child: Column(

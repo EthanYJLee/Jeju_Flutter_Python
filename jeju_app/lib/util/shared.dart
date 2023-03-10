@@ -2,7 +2,8 @@
 
 class Shared {
   // static String ipAddress = 'localhost';
-  static String ipAddress = '192.168.100.203';
+  // static String ipAddress = '192.168.100.203';
+  static String ipAddress = 'localhost';
 
   static String ipAddressmac = 'localhost:8080';
 }
