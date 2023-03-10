@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:jeju_app/model/store_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MyPage_Profile extends StatefulWidget {
-  const MyPage_Profile({super.key});
+class EditProfile extends StatefulWidget {
+  const EditProfile({super.key});
 
   @override
-  State<MyPage_Profile> createState() => _MyPage_ProfileState();
+  State<EditProfile> createState() => _EditProfileState();
 }
 
-class _MyPage_ProfileState extends State<MyPage_Profile> {
+class _EditProfileState extends State<EditProfile> {
+  late String uId = "";
+  late String uName = "";
+  late String uIdType = "";
+
   late TextEditingController userName;
   late TextEditingController userId;
   late TextEditingController userPw1;
@@ -25,12 +30,23 @@ class _MyPage_ProfileState extends State<MyPage_Profile> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _initSharedPreferences();
     userName = TextEditingController();
     userBrith = 'null';
     userSex = '남자';
 
     storetitle = [];
     storeS();
+  }
+
+  _initSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      uId = (prefs.getString('uId'))!;
+      uName = (prefs.getString('uName'))!;
+      uIdType = (prefs.getString('uIdType'))!;
+      print(uIdType);
+    });
   }
 
   @override
@@ -332,8 +348,9 @@ class _MyPage_ProfileState extends State<MyPage_Profile> {
   //Functions
   storeS() async {
     List listTest = [];
-    listTest = await store.userSelect('test');
+    listTest = await store.userSelect(uId);
     setState(() {
+      print(listTest);
       storetitle = listTest;
     });
     // print(storetitle);

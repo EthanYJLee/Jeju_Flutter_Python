@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:jeju_app/model/store_model.dart';
 import 'package:jeju_app/view/home.dart';
-import 'package:jeju_app/view/mypage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MyPage_Store_Add extends StatefulWidget {
-  const MyPage_Store_Add({super.key});
+class StoreAdd extends StatefulWidget {
+  const StoreAdd({super.key});
 
   @override
-  State<MyPage_Store_Add> createState() => _MyPage_Store_AddState();
+  State<StoreAdd> createState() => _StoreAddState();
 }
 
-class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
+class _StoreAddState extends State<StoreAdd> {
 // 매장정보 입력받는 Controller
   late TextEditingController sNameController = TextEditingController();
   late TextEditingController sCategoryController = TextEditingController();
   late TextEditingController sDongController = TextEditingController();
   late TextEditingController sTelController = TextEditingController();
   late TextEditingController sAddressController = TextEditingController();
-  late String user_uid = "";
+  late String user_uId = "";
   late String user_uIdType = "";
 
   // tf 입력받은 결과값
@@ -38,8 +37,8 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
   _initSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      user_uid = (prefs.getString('uId'))!;
-      // user_uIdType = (prefs.getString('uIdType'))!;
+      user_uId = prefs.getString('uId')!;
+      user_uIdType = (prefs.getString('uIdType'))!;
     });
   }
 
@@ -126,7 +125,7 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
         children: [
           Expanded(
             child: DropdownMenu(
-              menuHeight: 200,
+              menuHeight: 150,
               width: 150,
               initialSelection: dongList[0],
               controller: sDongController,
@@ -143,7 +142,7 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
           ),
           Expanded(
             child: DropdownMenu(
-              menuHeight: 200,
+              menuHeight: 150,
               width: 150,
               initialSelection: categoryList[0],
               controller: sCategoryController,
@@ -162,45 +161,57 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('매장 추가'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 50, right: 50, top: 50, bottom: 10),
-              child: TextField(
-                controller: sNameController,
-                decoration: const InputDecoration(hintText: '매장명 입력'),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: const Text('매장 추가'),
+        ),
+        body: Center(
+          child: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 50, right: 50, top: 50, bottom: 10),
+                    child: TextField(
+                      controller: sNameController,
+                      decoration: const InputDecoration(hintText: '매장명 입력'),
+                    ),
+                  ),
+                  _dropdownArea(),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 50, right: 50, bottom: 10),
+                    child: TextField(
+                      controller: sTelController,
+                      decoration: const InputDecoration(hintText: '전화번호 입력'),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 50, right: 50, bottom: 10),
+                    child: TextField(
+                      controller: sAddressController,
+                      decoration: const InputDecoration(hintText: '주소 입력'),
+                    ),
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _showDialog(context);
+                        });
+                      },
+                      child: const Text('추가하기'))
+                ],
               ),
             ),
-            _dropdownArea(),
-            Padding(
-              padding: const EdgeInsets.only(left: 50, right: 50, bottom: 10),
-              child: TextField(
-                controller: sTelController,
-                decoration: const InputDecoration(hintText: '전화번호 입력'),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 50, right: 50, bottom: 100),
-              child: TextField(
-                controller: sAddressController,
-                decoration: const InputDecoration(hintText: '주소 입력'),
-              ),
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _showDialog(context);
-                  });
-                },
-                child: const Text('추가하기'))
-          ],
+          ),
         ),
       ),
     );
@@ -243,8 +254,8 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
         sDongController.text,
         sTelController.text.trim(),
         sAddressController.text.trim(),
-        user_uid,
-        'common');
+        user_uId,
+        user_uIdType);
     setState(() {
       _joinDialog();
     });
@@ -264,7 +275,10 @@ class _MyPage_Store_AddState extends State<MyPage_Store_Add> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                // Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
               },
               child: const Text(
                 '확인',

@@ -23,7 +23,7 @@ class PopupNews extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(32.0),
+            padding: const EdgeInsets.all(0.0),
             child: Hero(
               tag: title,
               createRectTween: (begin, end) {
@@ -31,12 +31,12 @@ class PopupNews extends StatelessWidget {
               },
               child: Material(
                 color: const Color.fromARGB(255, 245, 239, 221),
-                elevation: 2,
+                elevation: 0.5,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32)),
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
