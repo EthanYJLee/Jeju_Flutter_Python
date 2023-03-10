@@ -195,7 +195,7 @@ class _MyPage_ProfileState extends State<MyPage_Profile> {
                   children: [
                     const SizedBox(
                         width: 110,
-                        child: Text('생년원일', style: TextStyle(fontSize: 18))),
+                        child: Text('생년월일', style: TextStyle(fontSize: 18))),
                     SizedBox(
                       width: 120,
                       child: Text(userBrith == 'null' ? '선택하세요' : userBrith,
