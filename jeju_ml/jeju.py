@@ -11,6 +11,7 @@ import numpy as np
 
 app = Flask(__name__)
 
+
 @app.route("/jeju")
 def jeju():
     dong = request.args.get("dong")
@@ -49,26 +50,27 @@ def jeju():
 
     # 행정동별 업종별 매장수 csv
     res_counts = pd.read_csv("./jeju_ml/res_counts.csv")
-    count = res_counts[(res_counts['읍면동명']==dong)&(res_counts['업종명']==category)]['매장수'].values[0]
+    count = res_counts[(res_counts['읍면동명'] == dong) & (
+        res_counts['업종명'] == category)]['매장수'].values[0]
 
     rf = joblib.load("./jeju_ml/rf_jeju.h5")
     pre = rf.predict(feature.to_numpy())
 
-    if(count!=0):
+    if (count != 0):
         re = float(pre[0])/float(count)
     else:
         count = 1
         re = float(pre[0])/float(count)
-    
+
     result = "{:.2f}".format(re)
 
     return jsonify({'result': str(result)})
-    
+
 
 # host_add = 'localhost'
 host_add = '127.0.0.1'
 port_num = 5000
 
 if __name__ == "__main__":
-    # app.run(host="localhost", port=5000, debug=True)
-    app.run(host=host_add, port=port_num, debug=True)
+    app.run(host="localhost", port=5000, debug=True)
+    # app.run(host=host_add, port=port_num, debug=True)

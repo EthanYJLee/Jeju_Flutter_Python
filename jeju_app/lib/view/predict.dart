@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:jeju_app/model/message.dart';
 import 'package:jeju_app/util/popup_card.dart';
@@ -383,7 +381,6 @@ class _PredictState extends State<Predict> {
                       category = categoryController.text;
                       strLocal = local.toString();
                       strChinese = chinese.toString();
-                      selectedDate ??= DateTime.now();
 
                       getJSONData();
                     },
