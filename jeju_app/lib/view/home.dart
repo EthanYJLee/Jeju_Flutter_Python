@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
+import 'package:jeju_app/kakao_login.dart';
 import 'package:jeju_app/model/news_model.dart';
 import 'package:jeju_app/model/store_model.dart';
 import 'package:jeju_app/util/card_dialog.dart';
@@ -53,10 +54,13 @@ class _HomeState extends State<Home> {
   // Drawer
   final DrawerHome drawerHome = const DrawerHome();
 
+  KakaoLogin kakaoLogin = KakaoLogin();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    kakaoLogin.checkToken();
     _initSharedPreferences().then((_) {
       setState(() {
         _getMyStore();

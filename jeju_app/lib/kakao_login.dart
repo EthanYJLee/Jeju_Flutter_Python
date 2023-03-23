@@ -35,4 +35,18 @@ class KakaoLogin implements SocialLogin {
       return false;
     }
   }
+
+  @override
+  Future<bool> checkToken() async {
+    try {
+      AccessTokenInfo tokenInfo = await UserApi.instance.accessTokenInfo();
+      print('토큰 정보 보기 성공'
+          '\n회원정보: ${tokenInfo.id}'
+          '\n만료시간: ${tokenInfo.expiresIn} 초');
+      return true;
+    } catch (error) {
+      print('토큰 정보 보기 실패 $error');
+      return false;
+    }
+  }
 }
