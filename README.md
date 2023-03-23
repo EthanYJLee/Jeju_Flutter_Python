@@ -2,15 +2,17 @@
 
 ### 제주도 내 외식업 종사자를 대상으로 매출을 예측하고 기록, 관리하는 서비스를 제공하는 어플
 ### 제주도 행정동, 업종, 내국인/중국인 관광객 수를 활용해 머신러닝 모델을 생성, 예측에 활용
+
 ---
 ## 기획의도 및 데이터 선정기준
-최근 코로나19 팬데믹 시대를 겪으면서 야외활동이 줄어들고 신진대사가 떨어져 당뇨병, 뇌졸중, 치매 등 성인병의 유병률이 급격하게 증가하는 추세임을 확인했습니다. 성인병 및 관련 합병증은 조기발견 및 예방이 무엇보다 중요하므로, 현재 개인의 건강상태를 기반으로 간편하게 유병률을 예측하는 프로젝트를 기획・선정하였습니다.
-선정 기준은 사용자가 병원을 가지 않고도 특정 Feature에 대해 대답할 수 있고 Dataset의 크기가 최대한 크며, Target 분포가 균일하도록 설정했습니다.
+제주특별자치도는 관광산업 의존도가 매우 높기 때문에 외교, 경제, 문화와 같이 복합적인 외부요인에 큰 영향을 받는 경향을 보입니다. 최근 코로나 19 방역정책 완화로 관광수요 회복을 기대했으나 환율과 금리, 물가가 동시에 급변함에 따라 관광객의 여행 패턴을 예측하는 것은 여전히 쉽지 않은 실정입니다. 이에 착안해, 관리자와 사업주들에게 관광객의 이동 패턴을 분석하여 행정동별, 외식업종별 매출액을 예측한 결과를 제공함으로써 운영의 최적화와 수익성을 높일 수 있는 데이터 중심의 객관적 컨설팅을 제공하고자 주제를 선정하였습니다.
 
 ---
 Dataset 출처:   
-당뇨병: https://www.kaggle.com/datasets/prosperchuks/health-dataset?select=diabetes_data.csv    
-뇌졸중:
-https://www.kaggle.com/datasets/prosperchuks/health-dataset?select=stroke_data.csv  
-원데이터 출처: CDC (Centers for Disease Control and Prevention; 미국 질병통제예방센터) 정기 전화 설문 데이터
+제주 데이터허브 : [소비, 경제] 제주특별자치도_주제8_유동인구 비율대비 지역별 인기있는 업종 추천 데이터_매쉬업 결과
+	https://www.jejudatahub.net/data/view/data/758  
+제주 데이터허브 : [인구, 생활] 제주도 단기체류 방문 외국인 유동인구 추이
+https://www.jejudatahub.net/data/view/data/527  
+공공데이터포털 : 제주특별자치도_내국인관광객현황
+https://www.data.go.kr/data/3083546/fileData.do?recommendDataYn=Y#layer_data_infomation
 
